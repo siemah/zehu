@@ -22,7 +22,7 @@ export default class App extends Component{
         <Header />
         <Content>
           <Button style={{ width: '100%', justifyContent: 'center', alignItem: 'center' }} warning>
-            <Text>Text</Text>
+            <Text>button text</Text>
           </Button>
         </Content>
       </Container>
