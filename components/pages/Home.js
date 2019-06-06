@@ -1,19 +1,17 @@
 import React, { Component } from 'react';
-import { StyleSheet, Dimensions } from 'react-native';
-import { Content, Container } from 'native-base';
+import { StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { Container, View, Text } from 'native-base';
 
 import HeaderBar from '../uis/HeaderBar'; 
-import Circle from '../uis/Circle'; 
+import ScrollThumbnail from '../uis/ScrollThumbnail'; 
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('screen');
 
 const Home = (props) => {
   return (
     <Container style={style.container}>
-      <HeaderBar 
-        iconStyle={style.iconStyle}
-      />
-    
+      <HeaderBar iconStyle={style.iconStyle} />
+      <ScrollThumbnail />
     </Container>
   )
 }
@@ -21,7 +19,6 @@ const Home = (props) => {
 const style = StyleSheet.create({
   container: {
     overflow: 'hidden',
-    position: 'relative'
   },
   circleStyle: {
     position: 'absolute',
