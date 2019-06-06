@@ -6,7 +6,6 @@ const splashStyle = StyleSheet.create({
     alignItems: 'center',
   },
   brandLogo: {
-    borderWidth: 10,
     display: 'flex',
   }
 });
