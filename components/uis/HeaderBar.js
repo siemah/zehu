@@ -5,13 +5,14 @@ import { Header, Body, Left, Button, Icon, Text, Content, Item, Input } from 'na
 /**
  * @name HeaderBar
  * HeaderBar component display a menu icon
- * and rendred on Top of screen
+ * and search input field
+ * rendred on Top of screen
  * @author siemah 
  * @version 1.0.0
  * @param {String} title is a header title
  * @param {Object} iconStyle represent a style object of IconMenu
  */
-const HeaderBar = ({ title='Search for ', iconStyle={color: 'black'}, ...rest }) => {
+const HeaderBar = ({ title='Search for ..', iconStyle={color: 'black'}, ...rest }) => {
   return (
     <View {...rest}>
       <Header transparent style={style.header}>
@@ -20,7 +21,7 @@ const HeaderBar = ({ title='Search for ', iconStyle={color: 'black'}, ...rest })
         </TouchableOpacity>
         <Content>
           <Item rounded style={[style.inputItem]} >
-            <Input placeholder='Rounded Textbox' style={style.input} />
+            <Input placeholder={title} style={style.input} />
             <Icon active name='search' onPress={()=> alert('Hey there')} />
           </Item>
         </Content>
