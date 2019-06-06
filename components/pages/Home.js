@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
-import { Container, View, Text } from 'native-base';
+import { Container, } from 'native-base';
 
 import HeaderBar from '../uis/HeaderBar'; 
-import ScrollThumbnail from '../uis/ScrollThumbnail'; 
+import VerticalCard from '../uis/VerticalCard'; 
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('screen');
 
@@ -11,7 +11,9 @@ const Home = (props) => {
   return (
     <Container style={style.container}>
       <HeaderBar iconStyle={style.iconStyle} />
-      <ScrollThumbnail />
+      <ScrollView>
+        <VerticalCard />
+      </ScrollView>
     </Container>
   )
 }

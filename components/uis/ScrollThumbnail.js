@@ -18,6 +18,7 @@ const ScrollThumbnail = () => {
 const style = StyleSheet.create({
   container: {
     height: 80,
+    paddingLeft: 10,
   },
 });
 
