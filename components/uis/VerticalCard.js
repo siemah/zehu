@@ -1,70 +1,38 @@
 import React from 'react'
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ActivityIndicator } from 'react-native';
 import { View, Text, Content, Right, Body, Left, Thumbnail, List, ListItem } from 'native-base'
 import ScrollThumbnail from './ScrollThumbnail'; 
 
-const VerticalCard = () => {
-  const uri = "https://facebook.github.io/react-native/docs/assets/favicon.png";
+const VerticalCard = ({ data }) => {
+  const { loading, articles } = data; 
+  const uri = 'https://arabicpost.net/wp-content/uploads/2019/06/2e9f3e640cb92f33b3a6627f1ea95f199439a55e-250217060311-300x199.jpeg';
   return (
     <Content>
       {/** The text container left side */}
       <List >
         <ScrollThumbnail />
-        <ListItem thumbnail noIndent noBorder={true} onPress={() => alert('...')}>
-          <Left style={{elevation: 15, backgroundColor: 'rgba(255,255,255, 0..5)'}}>
-            <Thumbnail source={{ uri }} style={styles.thumbnail} square large />
-          </Left>
-          <Body>
-            <View>
-              <Text numberOfLines={2} style={styles.articleTitle}>Title of article and the ùain thing and more content</Text>
-            </View>
-            <View>
-              <Text numberOfLines={2} style={styles.articleExtract}>Extract content of the whole article without forgeting the overflow of content ...</Text>
-            </View>
-            {/** here maybe will add some like and stuffs like that */}
-          </Body>
-        </ListItem>
-        <ListItem thumbnail noIndent noBorder={true}>
-          <Left style={{ elevation: 15, backgroundColor: 'rgba(255,255,255, 0..5)' }}>
-            <Thumbnail source={{ uri }} style={styles.thumbnail} square large />
-          </Left>
-          <Body style={{}}>
-            <View>
-              <Text numberOfLines={2} style={styles.articleTitle}>Title of article and the ùain thing and more content</Text>
-            </View>
-            <View>
-              <Text numberOfLines={2} style={styles.articleExtract}>Extract content of the whole article without forgeting the overflow of content ...</Text>
-            </View>
-            {/** here maybe will add some like and stuffs like that */}
-          </Body>
-        </ListItem>
-        <ListItem thumbnail noIndent noBorder={true}>
-          <Left style={{ elevation: 15, backgroundColor: 'rgba(255,255,255, 0..5)' }}>
-            <Thumbnail source={{ uri }} style={styles.thumbnail} square large />
-          </Left>
-          <Body style={{}}>
-            <View>
-              <Text numberOfLines={2} style={styles.articleTitle}>Title of article and the ùain thing and more content</Text>
-            </View>
-            <View>
-              <Text numberOfLines={2} style={styles.articleExtract}>Extract content of the whole article without forgeting the overflow of content ...</Text>
-            </View>
-            {/** here maybe will add some like and stuffs like that */}
-          </Body>
-        </ListItem><ListItem thumbnail noIndent noBorder={true}>
-          <Left style={{ elevation: 15, backgroundColor: 'rgba(255,255,255, 0..5)' }}>
-            <Thumbnail source={{ uri }} style={styles.thumbnail} square large />
-          </Left>
-          <Body style={{}}>
-            <View>
-              <Text numberOfLines={2} style={styles.articleTitle}>Title of article and the ùain thing and more content</Text>
-            </View>
-            <View>
-              <Text numberOfLines={2} style={styles.articleExtract}>Extract content of the whole article without forgeting the overflow of content ...</Text>
-            </View>
-            {/** here maybe will add some like and stuffs like that */}
-          </Body>
-        </ListItem>
+        {
+          loading ?
+            (<ActivityIndicator size='large' />) : 
+            (
+              articles.map(article => (
+                <ListItem key={article.slug} thumbnail noIndent noBorder={true} onPress={() => alert('...')}>
+                  <Left style={{ elevation: 15, backgroundColor: 'rgba(255,255,255, 0..5)' }}>
+                    <Thumbnail source={{ uri }} style={styles.thumbnail} square large />
+                  </Left>
+                  <Body>
+                    <View>
+                      <Text numberOfLines={2} style={styles.articleTitle}>{article.title.rendered}</Text>
+                    </View>
+                    <View>
+                      <Text numberOfLines={2} style={styles.articleExtract}>{article.excerpt.rendered}</Text>
+                    </View>
+                    {/** here maybe will add some like and stuffs like that */}
+                  </Body>
+                </ListItem>
+              ))
+            )
+        }
       
       </List>
       <View></View> 
