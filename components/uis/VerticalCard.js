@@ -1,8 +1,10 @@
 import React from 'react'
 import { StyleSheet, ActivityIndicator } from 'react-native';
 import { View, Text, Content, Right, Body, Left, Thumbnail, List, ListItem } from 'native-base'
+
 import ScrollThumbnail from './ScrollThumbnail'; 
 
+const removeHtmlTags = html => html.replace(/<\/?[p|div|em|del|strong|b|u|i]>/gi, "");
 const VerticalCard = ({ data }) => {
   const { loading, articles } = data; 
   const uri = 'https://arabicpost.net/wp-content/uploads/2019/06/2e9f3e640cb92f33b3a6627f1ea95f199439a55e-250217060311-300x199.jpeg';
@@ -25,7 +27,9 @@ const VerticalCard = ({ data }) => {
                       <Text numberOfLines={2} style={styles.articleTitle}>{article.title.rendered}</Text>
                     </View>
                     <View>
-                      <Text numberOfLines={2} style={styles.articleExtract}>{article.excerpt.rendered}</Text>
+                      <Text numberOfLines={2} style={styles.articleExtract}>
+                        {removeHtmlTags(article.excerpt.rendered)}
+                      </Text>
                     </View>
                     {/** here maybe will add some like and stuffs like that */}
                   </Body>

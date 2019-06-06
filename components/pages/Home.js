@@ -13,7 +13,6 @@ const initialState = {
   message: null,
 };
 const reducer = (state = initialState, { type, payload }) => {
-  console.warn(type, payload);
   switch (type) {
     case 'INIT_GET_ARTICLES':
       return { ...state, loading: true };
@@ -34,7 +33,6 @@ const Home = (props) => {
     try {
       let res = await fetch('http://arabicpost.net/wp-json/wp/v2/posts');
       let articles = await res.json();
-      //console.warn("state", state);
       dispatch({ type: 'FULFILLED_GET_ARTICLES', payload: articles });
     } catch (error) {
       dispatch({ type: 'REJECTED_GET_ARTICLES', payload: error.message });
