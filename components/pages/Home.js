@@ -6,7 +6,9 @@ import HeaderBar from '../uis/HeaderBar';
 const Home = (props) => {
   return (
     <Container >
-      <HeaderBar style={{backgroundColor: 'pink'}} />
+      <HeaderBar 
+        style={{backgroundColor: 'pink'}}
+        iconStyle={{ color: 'blue' }} />
     </Container>
   )
 }

@@ -10,13 +10,13 @@ import { Header, Body, Title, Left, Button, Icon } from 'native-base';
  * @version 1.0.0
  * @param {String} title is a header title
  */
-const HeaderBar = ({ title='', ...rest }) => {
+const HeaderBar = ({ title='', iconStyle={color: 'black'}, ...rest }) => {
   return (
     <View {...rest}>
       <Header transparent>
         <Left>
           <Button transparent>
-            <Icon name='menu' style={{ color: 'black', fontSize: 30 }} />
+            <Icon name='menu' style={iconStyle} />
           </Button>
         </Left>
         <Body>
