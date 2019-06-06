@@ -9,7 +9,8 @@
   "dependencies": {
     "native-base": "^2.12.1",
     "react": "16.8.3",
-    "react-native": "0.59.8"
+    "react-native": "0.59.8",
+    "react-native-render-html": "^4.1.2"
   },
   "devDependencies": {
     "@babel/core": "^7.4.5",
