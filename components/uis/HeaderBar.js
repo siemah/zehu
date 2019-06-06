@@ -9,6 +9,7 @@ import { Header, Body, Title, Left, Button, Icon } from 'native-base';
  * @author siemah 
  * @version 1.0.0
  * @param {String} title is a header title
+ * @param {Object} iconStyle represent a style object of IconMenu
  */
 const HeaderBar = ({ title='', iconStyle={color: 'black'}, ...rest }) => {
   return (
