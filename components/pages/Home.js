@@ -10,9 +10,8 @@ const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('screen');
 const Home = (props) => {
   return (
     <Container style={style.container}>
-      <Circle circleStyle={style.circleStyle} />
       <HeaderBar 
-        iconStyle={style.iconStyle} 
+        iconStyle={style.iconStyle}
       />
     
     </Container>
@@ -22,7 +21,7 @@ const Home = (props) => {
 const style = StyleSheet.create({
   container: {
     overflow: 'hidden',
-    position: 'relative',
+    position: 'relative'
   },
   circleStyle: {
     position: 'absolute',
@@ -32,7 +31,7 @@ const style = StyleSheet.create({
     width: SCREEN_WIDTH,
     borderRadius: SCREEN_WIDTH
   },
-  iconStyle: { color: 'black' },
+  iconStyle: { color: 'black', fontSize: 40 },
 
 })
 
