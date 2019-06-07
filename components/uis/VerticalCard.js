@@ -18,17 +18,17 @@ const VerticalCard = ({ data }) => {
             (<ActivityIndicator size='large' />) : 
             (
               articles.map(article => (
-                <ListItem key={article.slug} thumbnail noIndent noBorder={true} onPress={() => alert('...')}>
+                <ListItem key={article.url} thumbnail noIndent noBorder={true} onPress={() => alert('...')}>
                   <Left style={{ elevation: 15, backgroundColor: 'rgba(255,255,255, 0..5)' }}>
-                    <Thumbnail source={{ uri }} style={styles.thumbnail} square large />
+                    <Thumbnail source={{ uri: article.urlToImage }} style={styles.thumbnail} square large />
                   </Left>
                   <Body>
                     <View>
-                      <Text numberOfLines={2} style={styles.articleTitle}>{article.title.rendered}</Text>
+                      <Text numberOfLines={2} style={styles.articleTitle}>{article.title}</Text>
                     </View>
                     <View>
                       <Text numberOfLines={2} style={styles.articleExtract}>
-                        {removeHtmlTags(article.excerpt.rendered)}
+                        {article.description}
                       </Text>
                     </View>
                     {/** here maybe will add some like and stuffs like that */}

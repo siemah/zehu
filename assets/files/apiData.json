@@ -1,0 +1,20 @@
+{
+  "en": [
+    "http://fortune.com/wp-json/wp/v2/posts",
+    "https://techcrunch.com/wp-json/wp/v2/posts",
+    "https://www.wired.com/wp-json/wp/v2/posts",
+    "https://www.thesun.co.uk/wp-json/wp/v2/posts",
+    "https://news.sap.com/wp-json/wp/v2/posts",
+    "https://www.shoutmeloud.com/wp-json/wp/v2/posts",
+    "https://crackmagazine.net/wp-json/wp/v2/posts",
+    "https://talksport.com/wp-json/wp/v2/posts",
+  ], 
+  "ar": [
+    "https://arabicpost.net/wp-json/wp/v2/posts",
+    "https://www.tech-wd.com/wp-json/wp/v2/posts"
+  ],
+  "fr": [
+    "https://www.numerama.com/wp-json/wp/v2/posts",
+    "https://www.frenchweb.fr/wp-json/wp/v2/posts"
+  ]
+}
