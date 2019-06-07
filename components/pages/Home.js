@@ -1,12 +1,12 @@
-import React, { useReducer, useEffect } from 'react';
+import React, { useReducer, useState, useEffect } from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Container, } from 'native-base';
 import axios from 'axios';
 
-import HeaderBar from '../uis/HeaderBar'; 
+import HeaderBar from '../uis/HeaderBar';
 import VerticalCard from '../uis/VerticalCard';
 
-import { apiURL, apiKey } from '../../assets/files/config.json';
+import { apiKey, apiURL } from '../../assets/files/config';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('screen');
 
@@ -15,6 +15,7 @@ const initialState = {
   loading: false,
   message: null,
 };
+
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case 'INIT_GET_ARTICLES':
@@ -29,27 +30,34 @@ const reducer = (state = initialState, { type, payload }) => {
 }
 
 const Home = (props) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const source = axios.CancelToken.source();
+  const [state, setState] = useState(initialState);
+  const CancelToken = axios.CancelToken;
+  const source = CancelToken.source();
+  let _isMounted = true;
 
+  const params = `apiKey=${apiKey}&language=ar&pageSize=100`;
   const fetchDate = async () => {
     // dispatch loading state
-    dispatch({ type: 'INIT_GET_ARTICLES' });
+    if(_isMounted) setState({ loading: true });
     try {
-      let { status, articles } = await axios.get(`${apiURL}?language=en&apiKey=${apiKey}`, { cancelToken: source.token }).then(r=> r.data);
-      if (status === "ok" ) dispatch({ type: 'FULFILLED_GET_ARTICLES', payload: articles });
-      else{console.warn(status); throw new Error('Try again :(');}
+      let {status, articles} = await axios.get(`${apiURL}?${params}`, {cancelToken: source.token}).then(res => res.data);
+      if(status==='ok' && _isMounted) {
+        setState({ loading: false, articles });
+      }
+      else throw new Error('Try again :(');
     } catch (error) {
-      dispatch({ type: 'REJECTED_GET_ARTICLES', payload: error.message });
-      console.warn(`error: ${error.message}`)
+      if(_isMounted) setState({ loading: true });
     }
   }
+
   useEffect(() => {
     fetchDate();
-    return function cleanUp(){
-      source.cancel("cancelation ..");
+    return function cancel() {
+      _isMounted = false;
+      source.cancel();
     }
   }, []);
+
   return (
     <Container style={style.container}>
       <HeaderBar iconStyle={style.iconStyle} />

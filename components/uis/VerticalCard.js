@@ -2,24 +2,25 @@ import React from 'react'
 import { StyleSheet, ActivityIndicator } from 'react-native';
 import { View, Text, Content, Right, Body, Left, Thumbnail, List, ListItem } from 'native-base'
 
-import ScrollThumbnail from './ScrollThumbnail'; 
+import ScrollThumbnail from './ScrollThumbnail';
 
 const removeHtmlTags = html => html.replace(/<\/?[p|div|em|del|strong|b|u|i]>/gi, "");
 const VerticalCard = ({ data }) => {
-  const { loading, articles } = data; 
-  const uri = 'https://arabicpost.net/wp-content/uploads/2019/06/2e9f3e640cb92f33b3a6627f1ea95f199439a55e-250217060311-300x199.jpeg';
+  const { loading, articles } = data;
   return (
     <Content>
       {/** The text container left side */}
-      <List >
+      <List
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}>
         <ScrollThumbnail />
         {
           loading ?
-            (<ActivityIndicator size='large' />) : 
+            (<ActivityIndicator size='large' color='blue' style={styles.activityIndicator} />) :
             (
               articles.map(article => (
                 <ListItem key={article.url} thumbnail noIndent noBorder={true} onPress={() => alert('...')}>
-                  <Left style={{ elevation: 15, backgroundColor: 'rgba(255,255,255, 0..5)' }}>
+                  <Left style={{ elevation: 15, backgroundColor: 'rgba(255,255,255, 0.005)' }}>
                     <Thumbnail source={{ uri: article.urlToImage }} style={styles.thumbnail} square large />
                   </Left>
                   <Body>
@@ -37,9 +38,9 @@ const VerticalCard = ({ data }) => {
               ))
             )
         }
-      
+
       </List>
-      <View></View> 
+      <View></View>
     </Content>
   )
 }
@@ -48,9 +49,12 @@ const styles = StyleSheet.create({
   container: {
 
   },
-  thumbnail: { 
-    borderRadius: 10, 
-    overlayColor: '#ffffff',
+  activityIndicator: {
+    marginTop: 20,
+  },
+  thumbnail: {
+    borderRadius: 10,
+    //overlayColor: '#ffffff',
     resizeMode: 'cover'
   },
   articleTitle: {
