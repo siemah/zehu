@@ -1,6 +1,6 @@
 import React from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
-import CircleThumbnail from './CircleThumbnail'; 
+import CircleThumbnail from './CircleThumbnail';
 
 const ScrollThumbnail = () => {
   return (

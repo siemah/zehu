@@ -6,7 +6,7 @@ const CircleThumbnail = ({ source, title='', style={} }) => {
   return (
     <TouchableOpacity style={[style, styles.container]} activeOpacity={1}>
       <Content contentContainerStyle={styles.content}>
-        <Thumbnail source={source} style={styles.thumbnail}/>
+        <Thumbnail source={source} style={styles.thumbnail} />
         <Text style={styles.text}>{ title }</Text>
       </Content>
     </TouchableOpacity>
@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
     display: 'flex',
   },
   content: {
-    justifyContent: 'center', 
+    justifyContent: 'center',
     alignItems: 'center',
   },
   thumbnail: {

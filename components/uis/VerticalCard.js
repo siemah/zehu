@@ -5,7 +5,7 @@ import { View, Text, Content, Right, Body, Left, Thumbnail, List, ListItem } fro
 import ScrollThumbnail from './ScrollThumbnail';
 
 const removeHtmlTags = html => html.replace(/<\/?[p|div|em|del|strong|b|u|i]>/gi, "");
-const VerticalCard = ({ data }) => {
+const VerticalCard = ({ data, goTo }) => {
   const { loading, articles } = data;
   return (
     <Content>
@@ -19,7 +19,10 @@ const VerticalCard = ({ data }) => {
             (<ActivityIndicator size='large' color='blue' style={styles.activityIndicator} />) :
             (
               articles.map(article => (
-                <ListItem key={article.url} thumbnail noIndent noBorder={true} onPress={() => alert('...')}>
+                <ListItem key={article.url} thumbnail noIndent noBorder={true} onPress={() => {
+                  console.warn("pressing");
+                  goTo('Second')
+                }}>
                   <Left style={{ elevation: 15, backgroundColor: 'rgba(255,255,255, 0.005)' }}>
                     <Thumbnail source={{ uri: article.urlToImage }} style={styles.thumbnail} square large />
                   </Left>

@@ -2,6 +2,7 @@ import React, { useReducer, useState, useEffect } from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Container, } from 'native-base';
 import axios from 'axios';
+import { createStackNavigator, createAppContainer } from "react-navigation";
 
 import HeaderBar from '../uis/HeaderBar';
 import VerticalCard from '../uis/VerticalCard';
@@ -58,15 +59,21 @@ const Home = (props) => {
     }
   }, []);
 
+  const goTo = path => props.navigation.navigate(path);
+
   return (
     <Container style={style.container}>
       <HeaderBar iconStyle={style.iconStyle} />
       <ScrollView>
-        <VerticalCard data={state} />
+        <VerticalCard data={state} goTo={goTo} />
       </ScrollView>
     </Container>
   )
 }
+
+const Second = () => (
+  <HeaderBar iconStyle={style.iconStyle} />
+)
 
 const style = StyleSheet.create({
   container: {
@@ -84,4 +91,22 @@ const style = StyleSheet.create({
 
 })
 
-export default Home;
+const AppNavigator = createStackNavigator({
+  News: {
+    screen: Home,
+    path: '/news/default',
+    navigationOptions: ({ navigation }) => ({
+      title: `Bom's Profile'`,
+      header: null,
+    }),
+    headerBackTitleVisible: false,
+  },
+  Second: {
+    screen: Second,
+    path: '/second',
+  }
+});
+
+export default createAppContainer(AppNavigator);
+
+//export default Home;
