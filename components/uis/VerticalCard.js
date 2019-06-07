@@ -34,6 +34,7 @@ const VerticalCard = ({ data }) => {
                     </View>
                     {/** here maybe will add some like and stuffs like that */}
                   </Body>
+                  <View style={styles.divider}></View>
                 </ListItem>
               ))
             )
@@ -63,7 +64,15 @@ const styles = StyleSheet.create({
     color: '#0e1636',
   },
   articleExtract: {
-    color: '#727484'
+    color: '#727484',
+  },
+  divider: {
+    position: 'absolute',
+    bottom: 0,
+    left: 15,
+    right: 15,
+    height: 1,
+    backgroundColor: '#dfe6e6'
   }
 });
 
