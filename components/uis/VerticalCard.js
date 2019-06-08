@@ -1,6 +1,6 @@
 import React from 'react'
 import { StyleSheet, ActivityIndicator } from 'react-native';
-import { View, Text, Content, Right, Body, Left, Thumbnail, List, ListItem } from 'native-base'
+import { View, Text, Content, Body, Left, Thumbnail, List, ListItem } from 'native-base'
 
 import ScrollThumbnail from './ScrollThumbnail';
 
@@ -20,8 +20,7 @@ const VerticalCard = ({ data, goTo }) => {
             (
               articles.map(article => (
                 <ListItem key={article.url} thumbnail noIndent noBorder={true} onPress={() => {
-                  console.warn("pressing");
-                  goTo('Second')
+                  goTo('Article', article)
                 }}>
                   <Left style={{ elevation: 15, backgroundColor: 'rgba(255,255,255, 0.005)' }}>
                     <Thumbnail source={{ uri: article.urlToImage }} style={styles.thumbnail} square large />

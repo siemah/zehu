@@ -8,11 +8,17 @@ import React, {Component} from 'react';
 import {Platform, StyleSheet, Text, View} from 'react-native';
 import { Container, Content } from 'native-base';
 
-import Splash from './components/pages/Splash';
+//import Splash from './components/pages/Splash';
 import NewsHome from './components/pages/NewsHome';
 
-export default class App extends Component{
+export default class App extends Component {
+
+  state = {
+    hideHeader: reactNavigationStackState.stackNavigationIsDisplay
+  }
+
   render() {
+    let { hideHeader } = this.state;
     return (
       <Container>
         <NewsHome />

@@ -8,8 +8,9 @@ import HeaderBar from '../uis/HeaderBar';
 import VerticalCard from '../uis/VerticalCard';
 
 import { apiKey, apiURL } from '../../assets/files/config';
+import Article from './Article';
 
-const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT} = Dimensions.get('screen');
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('screen');
 
 const initialState = {
   articles: [],
@@ -17,7 +18,7 @@ const initialState = {
   message: null,
 };
 
-const newsReducer = (state = initialState, { type, payload }) => {
+const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case 'INIT_GET_ARTICLES':
       return { ...state, loading: true };
@@ -26,42 +27,30 @@ const newsReducer = (state = initialState, { type, payload }) => {
     case 'REJECTED_GET_ARTICLES':
       return { ...state, loading: false, message: payload }
     default:
-      return state;
+      return state
   }
 }
 
-/**
- * @name NewsHome
- * News main screen display a list of news
- * and several categories at VerticalCard
- * @return {Component} render UI of home screen
- */
-const NewsHome = () => {
-  const apiLink = `${apiURL}?apiKey=${apiKey}&language=en&pageSize=100`
-  const goTo = path => props.navigation.navigate(path);
+const Home = (props) => {
+  const [state, setState] = useState(initialState);
   const CancelToken = axios.CancelToken;
   const source = CancelToken.source();
   let _isMounted = true;
 
-  const [data, dispatch] = useReducer(newsReducer, initialState);
-  const [url, setUrl] = useState(apiLink);
+  const params = `apiKey=${apiKey}&language=fr&pageSize=100&category=`;
 
   useEffect(() => {
     const fetchDate = async () => {
-      // dispatch loading data
-      dispatch({ type: 'INIT_GET_ARTICLES' });
-      //console.warn("[fetch]");
+      // dispatch loading state
+      if (_isMounted) setState({ loading: true });
       try {
-        let { data } = await axios.get(`${url}`, {cancelToken: source.token});
-        //console.warn("status %s, number of articles: %d", data.status, data.articles.length);
-        if(data.status==='ok' && _isMounted)
-          dispatch({ type: 'FULFILLED_GET_ARTICLES', payload: data.articles });
-        else if(_isMounted)
-          dispatch({ type: 'REJECTED_GET_ARTICLES', payload: 'Try again' });
+        let { status, articles } = await axios.get(`${apiURL}?${params}`, { cancelToken: source.token }).then(res => res.data);
+        if (status === 'ok' && _isMounted) {
+          setState({ loading: false, articles });
+        }
+        else throw new Error('Try again :(');
       } catch (error) {
-        console.warn(error);
-        if(_isMounted)
-          dispatch({ type: 'REJECTED_GET_ARTICLES', payload: error.message });
+        if (_isMounted) setState({ loading: true });
       }
     }
     fetchDate();
@@ -69,21 +58,19 @@ const NewsHome = () => {
       _isMounted = false;
       source.cancel();
     }
-  }, [url]);
+  }, []);
 
+  const goTo = props.navigation.navigate;
+  console.warn("\\====outline|>/");
   return (
     <Container style={style.container}>
       <HeaderBar iconStyle={style.iconStyle} />
       <ScrollView>
-        <VerticalCard data={data} goTo={goTo} />
+        <VerticalCard data={state} goTo={goTo} />
       </ScrollView>
     </Container>
   )
 }
-
-const Second = () => (
-  <HeaderBar iconStyle={style.iconStyle} />
-)
 
 const style = StyleSheet.create({
   container: {
@@ -103,17 +90,20 @@ const style = StyleSheet.create({
 
 const AppNavigator = createStackNavigator({
   News: {
-    screen: NewsHome,
-    path: '/news/home',
+    screen: Home,
+    path: '/news/default',
     navigationOptions: ({ navigation }) => ({
       title: `Bom's Profile'`,
       header: null,
     }),
     headerBackTitleVisible: false,
   },
-  Second: {
-    screen: Second,
-    path: '/second',
+  Article: {
+    screen: Article,
+    path: '/news/article/:url',
+    navigationOptions: {
+      header: null,
+    }
   }
 });
 
