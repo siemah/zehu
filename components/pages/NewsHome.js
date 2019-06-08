@@ -30,7 +30,13 @@ const newsReducer = (state = initialState, { type, payload }) => {
   }
 }
 
-const Home = (props) => {
+/**
+ * @name NewsHome
+ * News main screen display a list of news
+ * and several categories at VerticalCard
+ * @return {Component} render UI of home screen
+ */
+const NewsHome = () => {
   const apiLink = `${apiURL}?apiKey=${apiKey}&language=en&pageSize=100`
   const goTo = path => props.navigation.navigate(path);
   const CancelToken = axios.CancelToken;
@@ -97,8 +103,8 @@ const style = StyleSheet.create({
 
 const AppNavigator = createStackNavigator({
   News: {
-    screen: Home,
-    path: '/news/default',
+    screen: NewsHome,
+    path: '/news/home',
     navigationOptions: ({ navigation }) => ({
       title: `Bom's Profile'`,
       header: null,

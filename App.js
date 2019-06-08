@@ -9,13 +9,13 @@ import {Platform, StyleSheet, Text, View} from 'react-native';
 import { Container, Content } from 'native-base';
 
 import Splash from './components/pages/Splash';
-import Home from './components/pages/Home';
+import NewsHome from './components/pages/NewsHome';
 
 export default class App extends Component{
   render() {
     return (
       <Container>
-        <Home />
+        <NewsHome />
       </Container>
     );
   }
