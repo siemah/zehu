@@ -17,7 +17,7 @@ const initialState = {
   message: null,
 };
 
-const reducer = (state = initialState, { type, payload }) => {
+const newsReducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case 'INIT_GET_ARTICLES':
       return { ...state, loading: true };
@@ -26,46 +26,50 @@ const reducer = (state = initialState, { type, payload }) => {
     case 'REJECTED_GET_ARTICLES':
       return { ...state, loading: false, message: payload }
     default:
-      return state
+      return state;
   }
 }
 
 const Home = (props) => {
-  const [state, setState] = useState(initialState);
+  const apiLink = `${apiURL}?apiKey=${apiKey}&language=en&pageSize=100`
+  const goTo = path => props.navigation.navigate(path);
   const CancelToken = axios.CancelToken;
   const source = CancelToken.source();
   let _isMounted = true;
 
-  const params = `apiKey=${apiKey}&language=ar&pageSize=100`;
-  const fetchDate = async () => {
-    // dispatch loading state
-    if(_isMounted) setState({ loading: true });
-    try {
-      let {status, articles} = await axios.get(`${apiURL}?${params}`, {cancelToken: source.token}).then(res => res.data);
-      if(status==='ok' && _isMounted) {
-        setState({ loading: false, articles });
-      }
-      else throw new Error('Try again :(');
-    } catch (error) {
-      if(_isMounted) setState({ loading: true });
-    }
-  }
+  const [data, dispatch] = useReducer(newsReducer, initialState);
+  const [url, setUrl] = useState(apiLink);
 
   useEffect(() => {
+    const fetchDate = async () => {
+      // dispatch loading data
+      dispatch({ type: 'INIT_GET_ARTICLES' });
+      //console.warn("[fetch]");
+      try {
+        let { data } = await axios.get(`${url}`, {cancelToken: source.token});
+        //console.warn("status %s, number of articles: %d", data.status, data.articles.length);
+        if(data.status==='ok' && _isMounted)
+          dispatch({ type: 'FULFILLED_GET_ARTICLES', payload: data.articles });
+        else if(_isMounted)
+          dispatch({ type: 'REJECTED_GET_ARTICLES', payload: 'Try again' });
+      } catch (error) {
+        console.warn(error);
+        if(_isMounted)
+          dispatch({ type: 'REJECTED_GET_ARTICLES', payload: error.message });
+      }
+    }
     fetchDate();
     return function cancel() {
       _isMounted = false;
       source.cancel();
     }
-  }, []);
-
-  const goTo = path => props.navigation.navigate(path);
+  }, [url]);
 
   return (
     <Container style={style.container}>
       <HeaderBar iconStyle={style.iconStyle} />
       <ScrollView>
-        <VerticalCard data={state} goTo={goTo} />
+        <VerticalCard data={data} goTo={goTo} />
       </ScrollView>
     </Container>
   )
