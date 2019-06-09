@@ -61,7 +61,7 @@ const Home = (props) => {
   }, []);
 
   const goTo = props.navigation.navigate;
-  console.warn("\\removing test processin \\__/ ====--->/");
+
   return (
     <Container style={style.container}>
       <HeaderBar iconStyle={style.iconStyle} />
