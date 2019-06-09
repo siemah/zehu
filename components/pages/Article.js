@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { Card, Thumbnail, CardItem, Content, Left, Body, Icon, Button, Footer, Right } from 'native-base'
 
+import ModalBrowser from '../uis/ModalBrowser';
 import { saveArticle, removeArticle } from '../../utils/tools'
 
 /**
@@ -22,6 +23,7 @@ import { saveArticle, removeArticle } from '../../utils/tools'
 const Article = ({ navigation }) => {
   const { title, urlToImage, publishedAt, content, author, url, source } = navigation.state.params;
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [visible, setVisible] = useState(false)
   /**
    * @name _onPressBookmark 
    * fired when user click on bookmark button
@@ -38,6 +40,12 @@ const Article = ({ navigation }) => {
       return;
     } 
   } 
+  const _onPressVisitSource = () => {
+    setVisible(visible => {
+      console.warn('visible', visible)
+      return !visible;
+    });
+  }
   
   return (
     <>
@@ -79,12 +87,13 @@ const Article = ({ navigation }) => {
       </Content>
       <Footer style={styles.footer}>
         <Right style={styles.footerBtnContainer}>
-          <Button style={styles.footerBtn}>
+          <Button style={styles.footerBtn} onPress={_onPressVisitSource}>
             <Text style={styles.footerBtnText}>Visit</Text>
             <Icon name='arrow-forward' />
           </Button>
         </Right>
       </Footer>
+      <ModalBrowser visible={visible} onClose={_onPressVisitSource} uri={url} style={{backgroundColor: 'red'}} />
     </>
   );
 }
@@ -93,7 +102,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ffffff',
-    top:25,
+    top:20,
   },
   thumbnailContainer: {
     elevation: 30,
