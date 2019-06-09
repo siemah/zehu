@@ -1,6 +1,6 @@
 /* @flow */
 
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -8,10 +8,16 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-import { Card, Thumbnail, CardItem, Content, Left, Body, Icon, Right, Button } from 'native-base'
+import { Card, Thumbnail, CardItem, Content, Left, Body, Icon, Button } from 'native-base'
+
+import { saveArticle, removeArticle } from '../../utils/tools'
 
 const Article = ({ navigation }) => {
   const { title, urlToImage, publishedAt, content, author, url, source } = navigation.state.params;
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const _onPressBookmark = async () => {
+    
+  } 
   
   return (
     <Content style={styles.container}>
@@ -27,8 +33,13 @@ const Article = ({ navigation }) => {
               <Text style={styles.secondaryText}>{ source.name }</Text>
               <Text style={styles.secondaryText}>{ publishedAt }</Text>
             </Body>
-            <Button transparent>
-              <Icon name='bookmark-outline' active={true} type='MaterialCommunityIcons' style={styles.saveBtn} />  
+            <Button onPress={_onPressBookmark} transparent>
+              <Icon 
+                name={isBookmarked ? 'bookmark' : 'bookmark-outline'} 
+                active={true} 
+                type='MaterialCommunityIcons' 
+                style={styles.saveBtn}
+               />  
             </Button>  
           </Left>
         </CardItem>
