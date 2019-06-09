@@ -16,7 +16,15 @@ const Article = ({ navigation }) => {
   const { title, urlToImage, publishedAt, content, author, url, source } = navigation.state.params;
   const [isBookmarked, setIsBookmarked] = useState(false);
   const _onPressBookmark = async () => {
-    
+    if( !isBookmarked ) {
+      let isSaved = await saveArticle(navigation.state.params);
+      setIsBookmarked(isSaved);
+    }
+    else {
+      let isRemoved = await removeArticle(url);
+      setIsBookmarked(!isRemoved);
+      return;
+    } 
   } 
   
   return (
