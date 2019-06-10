@@ -16,7 +16,7 @@ const VerticalCard = ({ data, goTo }) => {
         <ScrollThumbnail />
         {
           loading ?
-            (<ActivityIndicator size='large' color='blue' style={styles.activityIndicator} />) :
+            (<ActivityIndicator size='large' color='#0e1636' style={styles.activityIndicator} />) :
             (
               articles.map(article => (
                 <ListItem key={article.url} thumbnail noIndent noBorder={true} onPress={() => {

@@ -12,7 +12,7 @@ import { Header, Body, Left, Button, Icon, Text, Content, Item, Input } from 'na
  * @param {String} title is a header title
  * @param {Object} iconStyle represent a style object of IconMenu
  */
-const HeaderBar = ({ title='Search for ..', iconStyle={color: 'black'}, ...rest }) => {
+const HeaderBar = ({ title='Search for ..', iconStyle={color: '#0e1636'}, ...rest }) => {
   return (
     <View {...rest}>
       <Header transparent style={style.header}>

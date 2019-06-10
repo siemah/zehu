@@ -3,6 +3,7 @@ import { Modal, StyleSheet, View,  } from 'react-native';
 import { WebView } from 'react-native-webview'
 import { Content, Header, Left, Body, Icon, Title, Button, Container, Spinner } from 'native-base';
 
+import Loader from './Loader'
 const ModalBrowser = ({ visible = false, uri, onClose=()=>{}, ...rest }) => {
   const [width, setWidth] = useState("0%");
   return (
@@ -26,8 +27,8 @@ const ModalBrowser = ({ visible = false, uri, onClose=()=>{}, ...rest }) => {
               let width = nativeEvent.progress * 100;
               setWidth(width===100? 0 : width);
             }}
-            renderLoading={() => <Spinner size='large' color='#0e1636' />}
-            style={{ height: '100%', width: '100%', alignItems: 'center' }} 
+            renderLoading={() => <Loader />}
+            style={{ height: '100%', width: '100%', }} 
             source={{ uri }} />
         </Content>
       </Container>
@@ -37,9 +38,7 @@ const ModalBrowser = ({ visible = false, uri, onClose=()=>{}, ...rest }) => {
 
 const styles = StyleSheet.create({
   header: {
-    //borderBottomColor: "#0e1636",
-    //borderBottomWidth: 1,
-    paddingBottom: 20,
+    //paddingBottom: 20,
   },
   closeIcon: {
     fontSize: 40,

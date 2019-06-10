@@ -8,7 +8,7 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-import { Card, Thumbnail, CardItem, Content, Left, Body, Icon, Button, Footer, Right } from 'native-base'
+import { Card, Thumbnail, CardItem, Container, Content, Left, Body, Icon, Button, Footer, Right } from 'native-base'
 
 import ModalBrowser from '../uis/ModalBrowser';
 import { saveArticle, removeArticle } from '../../utils/tools'
@@ -40,15 +40,10 @@ const Article = ({ navigation }) => {
       return;
     } 
   } 
-  const _onPressVisitSource = () => {
-    setVisible(visible => {
-      console.warn('visible', visible)
-      return !visible;
-    });
-  }
+  const _onPressVisitSource = () => setVisible(visible => !visible );
   
   return (
-    <>
+    <Container>
       <Content style={styles.container}>
         <Card transparent>
           {/*<Image source={{ uri: urlToImage}} />*/}
@@ -86,6 +81,11 @@ const Article = ({ navigation }) => {
         </View>
       </Content>
       <Footer style={styles.footer}>
+        <Left style={{...styles.footerBtnContainer, }}>
+          <Button style={[styles.footerBtn, styles.footerLeftBtn]} danger>
+            <Icon name='arrow-back' style={{color:'#000000',}} />
+          </Button>
+        </Left>
         <Right style={styles.footerBtnContainer}>
           <Button style={styles.footerBtn} onPress={_onPressVisitSource}>
             <Text style={styles.footerBtnText}>Visit</Text>
@@ -94,7 +94,7 @@ const Article = ({ navigation }) => {
         </Right>
       </Footer>
       <ModalBrowser visible={visible} onClose={_onPressVisitSource} uri={url} style={{backgroundColor: 'red'}} />
-    </>
+    </Container>
   );
 }
 
@@ -151,17 +151,23 @@ const styles = StyleSheet.create({
   },
   articleContent: {
     fontSize: 18,
-    color: "#4e5686"
+    color: "#4e5686",
+    paddingBottom: 25,
   },
   footer: { 
     backgroundColor: 'white', 
-    height: 70, 
-    marginTop: 25,
+    height: 60, 
   },
   footerBtnContainer: { 
-    //backgroundColor: '#f3f9fe', 
-    borderTopLeftRadius: 50, 
+    backgroundColor: 'transparent', 
     height: '100%',
+  },
+  footerLeftBtn: {
+    paddingLeft:10, 
+    backgroundColor: 'rgba(222, 222, 222, 1)', 
+    borderTopStartRadius: 0, 
+    elevation: 0,
+    padding: 10,
   },
   footerBtn: { 
     backgroundColor: '#0e1636', 
