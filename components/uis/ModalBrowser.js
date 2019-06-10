@@ -10,7 +10,7 @@ const ModalBrowser = ({ visible = false, uri, onClose=()=>{}, ...rest }) => {
     <Modal visible={visible} source={{ uri }} {...rest}>
       <Container style={styles.container}>
         <Header style={styles.header} transparent>
-          <Left>
+          <Left style={{ backgroundColor: 'red' }}>
             <Button onPress={onClose} transparent>
               <Icon name='close' style={styles.closeIcon} />
             </Button>
@@ -38,7 +38,8 @@ const ModalBrowser = ({ visible = false, uri, onClose=()=>{}, ...rest }) => {
 
 const styles = StyleSheet.create({
   header: {
-    //paddingBottom: 20,
+    paddingTop: 0,
+    height: 60,
   },
   closeIcon: {
     fontSize: 40,
