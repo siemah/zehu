@@ -6,6 +6,7 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 
 import HeaderBar from '../uis/HeaderBar';
 import VerticalCard from '../uis/VerticalCard';
+import AlertMessage from '../uis/AlertMessage';
 
 import { apiKey, apiURL } from '../../assets/files/config';
 import Article from './Article';
@@ -32,31 +33,31 @@ const reducer = (state = initialState, { type, payload }) => {
 }
 
 const Home = (props) => {
-  const [state, setState] = useState(initialState);
+  const [state, dispatch] = useReducer(reducer, initialState);
   const [category,  setCategory] = useState('');
   const CancelToken = axios.CancelToken;
   const source = CancelToken.source();
   let _isMounted = true;
 
   useEffect(() => {
-    console.warn('useEffect');
+    console.warn('...???');
     const fetchDate = () => {
       // dispatch loading state
-      if (_isMounted) setState({ loading: true });
+      if (_isMounted) dispatch({ type: 'INIT_GET_ARTICLES' });
       axios.get(
-        `${apiURL}?apiKey=${apiKey}&language=ar&pageSize=100&category=${category}`,
+        `${apiURL}?apiKey=${apiKey}&language=en&pageSize=100${category.length ? '&' + category : ''}`,
         { cancelToken: source.token, }
       )
       .then(res => {
         let { status, articles } = res.data
-        //console.warn('fetching articles ', articles);
+        console.warn('fetching articles ', articles);
         if (status === 'ok' && _isMounted)
-          setState({ loading: false, articles });
-        else throw new Error('Try again :(');
+          dispatch({ type: 'FULFILLED_GET_ARTICLES', payload: articles });
+        else throw new Error('Something went wrong, check Wifi or your Data.');
       })
       .catch((error) => {
-        console.warn('error => ', error)
-        if (_isMounted) setState({ loading: false });
+        console.warn('error --> ', error.message)
+        if (_isMounted) dispatch({ type: 'REJECTED_GET_ARTICLES', payload: error.message });
       })
     }
     fetchDate();
@@ -75,20 +76,25 @@ const Home = (props) => {
   const _onChangeCategory = category => {
     if(!state.loading) {
       setCategory(category);
-      setState(prevState => ({
-        ...prevState,
-        articles: [],
-      }))
     }
-    console.warn(category)
+  }
+  const _onRefresh = () => {
+    console.warn("onRefresh ", category);
+    setCategory(category);
   }
 
   return (
     <Container style={style.container}>
       <HeaderBar iconStyle={style.iconStyle} />
-      <ScrollView>
-        <VerticalCard data={state} goTo={goTo} onPress={_onChangeCategory} />
-      </ScrollView>
+      {
+        state.message
+          ? <AlertMessage message={state.message} onPress={_onRefresh} />
+          : (
+            <ScrollView>
+              <VerticalCard data={state} goTo={goTo} onPress={_onChangeCategory} />
+            </ScrollView>
+          )
+      }
     </Container>
   )
 }
@@ -105,7 +111,9 @@ const style = StyleSheet.create({
     width: SCREEN_WIDTH,
     borderRadius: SCREEN_WIDTH
   },
-  iconStyle: { color: 'black', fontSize: 40 },
+  iconStyle: {
+    fontSize: 40
+  },
 
 })
 
