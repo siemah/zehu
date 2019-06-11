@@ -15,7 +15,7 @@ import { saveArticle, removeArticle } from '../../utils/tools'
 
 /**
  * @name Article
- * @author siemh 
+ * @author siemah
  * @version 1.0.0
  * @param {Object} props list of props passed by React.Componenet
  * display article content and published ..etc
@@ -25,7 +25,7 @@ const Article = ({ navigation }) => {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [visible, setVisible] = useState(false)
   /**
-   * @name _onPressBookmark 
+   * @name _onPressBookmark
    * fired when user click on bookmark button
    * on right top of Article header
    */
@@ -38,10 +38,13 @@ const Article = ({ navigation }) => {
       let isRemoved = await removeArticle(url);
       setIsBookmarked(!isRemoved);
       return;
-    } 
-  } 
+    }
+  }
+  // display a ModalBrowser
   const _onPressVisitSource = () => setVisible(visible => !visible );
-  
+  // return to previous navigatio like NewsHome
+  const _onBack = () => navigation.goBack();
+
   return (
     <Container>
       <Content style={styles.container}>
@@ -58,13 +61,13 @@ const Article = ({ navigation }) => {
                 <Text style={styles.secondaryText}>{ publishedAt }</Text>
               </Body>
               <Button onPress={_onPressBookmark} transparent>
-                <Icon 
-                  name={isBookmarked ? 'bookmark' : 'bookmark-outline'} 
-                  active={true} 
-                  type='MaterialCommunityIcons' 
+                <Icon
+                  name={isBookmarked ? 'bookmark' : 'bookmark-outline'}
+                  active={true}
+                  type='MaterialCommunityIcons'
                   style={styles.saveBtn}
-                />  
-              </Button>  
+                />
+              </Button>
             </Left>
           </CardItem>
           <CardItem style={styles.articleImageContainer} cardBody>
@@ -82,7 +85,7 @@ const Article = ({ navigation }) => {
       </Content>
       <Footer style={styles.footer}>
         <Left style={{...styles.footerBtnContainer, }}>
-          <Button style={[styles.footerBtn, styles.footerLeftBtn]} danger>
+          <Button style={[styles.footerBtn, styles.footerLeftBtn]} onPress={_onBack} danger>
             <Icon name='arrow-back' style={{color:'#000000',}} />
           </Button>
         </Left>
@@ -108,31 +111,31 @@ const styles = StyleSheet.create({
     elevation: 30,
     backgroundColor: 'rgba(255, 255, 255, 0.005)',
   },
-  thumbnail: { 
+  thumbnail: {
     borderRadius: 5,
   },
-  saveBtn: { 
+  saveBtn: {
     color: '#f1b422',
-    fontWeight: 'bold', 
-    fontSize: 40, 
+    fontWeight: 'bold',
+    fontSize: 40,
   },
   articleImageContainer: {
     margin: 15,
     backgroundColor: 'rgba(255, 255, 255, 0.005)',
     elevation: 30,
   },
-  articleImage: { 
-    height: 200, 
-    width: null, 
+  articleImage: {
+    height: 200,
+    width: null,
     borderRadius: 10,
-    flex: 1 
+    flex: 1
   },
   author: {
     fontSize: 17,
     color: '#0e1636',
     fontWeight: 'bold',
     textTransform: 'capitalize',
-  }, 
+  },
   secondaryText: {
     fontSize: 13,
     color: '#727484'
@@ -154,24 +157,24 @@ const styles = StyleSheet.create({
     color: "#4e5686",
     paddingBottom: 25,
   },
-  footer: { 
-    backgroundColor: 'white', 
-    height: 60, 
+  footer: {
+    backgroundColor: 'white',
+    height: 60,
   },
-  footerBtnContainer: { 
-    backgroundColor: 'transparent', 
+  footerBtnContainer: {
+    backgroundColor: 'transparent',
     height: '100%',
   },
   footerLeftBtn: {
-    paddingLeft:10, 
-    backgroundColor: 'rgba(222, 222, 222, 1)', 
-    borderTopStartRadius: 0, 
+    paddingLeft:10,
+    backgroundColor: 'rgba(222, 222, 222, 1)',
+    borderTopStartRadius: 0,
     elevation: 0,
     padding: 10,
   },
-  footerBtn: { 
-    backgroundColor: '#0e1636', 
-    borderTopStartRadius: 50, 
+  footerBtn: {
+    backgroundColor: '#0e1636',
+    borderTopStartRadius: 50,
     paddingLeft: 35,
     paddingRight: 10,
     position: 'absolute',

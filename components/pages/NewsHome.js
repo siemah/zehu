@@ -40,7 +40,7 @@ const Home = (props) => {
   let _isMounted = true;
 
   useEffect(() => {
-    console.warn('...???');
+    console.warn('UI');
     const fetchDate = () => {
       // dispatch loading state
       if (_isMounted) dispatch({ type: 'INIT_GET_ARTICLES' });
@@ -67,7 +67,7 @@ const Home = (props) => {
     }
   }, [category]);
 
-  const goTo = props.navigation.navigate;
+  const { navigate: goTo, } = props.navigation;
   /**
    * @name _onChangeCategory
    * change the category
