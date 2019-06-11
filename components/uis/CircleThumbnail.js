@@ -2,11 +2,14 @@ import React from 'react'
 import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Content, Thumbnail, Text } from 'native-base'
 
-const CircleThumbnail = ({ source, title='', style={} }) => {
+const CircleThumbnail = ({ source, title='', category='', style={}, onPress=()=>{} }) => {
+  const _onPress = () => onPress(category);
   return (
-    <TouchableOpacity style={[style, styles.container]} activeOpacity={1}>
+    <TouchableOpacity style={[style, styles.container]} onPress={_onPress} activeOpacity={1}>
       <Content contentContainerStyle={styles.content}>
-        <Thumbnail source={source} style={styles.thumbnail} />
+        <View style={styles.thumbnailContainer}>
+          <Thumbnail source={source} style={styles.thumbnail} large/>
+        </View>   
         <Text style={styles.text}>{ title }</Text>
       </Content>
     </TouchableOpacity>
@@ -15,18 +18,20 @@ const CircleThumbnail = ({ source, title='', style={} }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginHorizontal: 5,
+    marginHorizontal: 10,
     justifyContent: 'space-around',
-    flex: 1,
-    display: 'flex',
   },
   content: {
     justifyContent: 'center',
     alignItems: 'center',
   },
+  thumbnailContainer: {
+    borderRadius: 80, 
+    borderColor: '#cc518b', 
+    borderWidth: 2, 
+    padding: 2,
+  },
   thumbnail: {
-    borderWidth: 2,
-    borderColor: '#cc518b',
     padding: 20,
   },
   text: {

@@ -33,40 +33,61 @@ const reducer = (state = initialState, { type, payload }) => {
 
 const Home = (props) => {
   const [state, setState] = useState(initialState);
+  const [category,  setCategory] = useState('');
   const CancelToken = axios.CancelToken;
   const source = CancelToken.source();
   let _isMounted = true;
 
-  const params = `apiKey=${apiKey}&language=fr&pageSize=100&category=`;
-
   useEffect(() => {
-    const fetchDate = async () => {
+    console.warn('useEffect');
+    const fetchDate = () => {
       // dispatch loading state
       if (_isMounted) setState({ loading: true });
-      try {
-        let { status, articles } = await axios.get(`${apiURL}?${params}`, { cancelToken: source.token }).then(res => res.data);
-        if (status === 'ok' && _isMounted) {
+      axios.get(
+        `${apiURL}?apiKey=${apiKey}&language=ar&pageSize=100&category=${category}`,
+        { cancelToken: source.token, }
+      )
+      .then(res => {
+        let { status, articles } = res.data
+        //console.warn('fetching articles ', articles);
+        if (status === 'ok' && _isMounted)
           setState({ loading: false, articles });
-        }
         else throw new Error('Try again :(');
-      } catch (error) {
-        if (_isMounted) setState({ loading: true });
-      }
+      })
+      .catch((error) => {
+        console.warn('error => ', error)
+        if (_isMounted) setState({ loading: false });
+      })
     }
     fetchDate();
     return function cancel() {
       _isMounted = false;
       source.cancel();
     }
-  }, []);
+  }, [category]);
 
   const goTo = props.navigation.navigate;
+  /**
+   * @name _onChangeCategory
+   * change the category
+   * @param {String} category
+   */
+  const _onChangeCategory = category => {
+    if(!state.loading) {
+      setCategory(category);
+      setState(prevState => ({
+        ...prevState,
+        articles: [],
+      }))
+    }
+    console.warn(category)
+  }
 
   return (
     <Container style={style.container}>
       <HeaderBar iconStyle={style.iconStyle} />
       <ScrollView>
-        <VerticalCard data={state} goTo={goTo} />
+        <VerticalCard data={state} goTo={goTo} onPress={_onChangeCategory} />
       </ScrollView>
     </Container>
   )
