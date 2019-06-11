@@ -24,7 +24,7 @@ const reducer = (state = initialState, { type, payload }) => {
     case 'INIT_GET_ARTICLES':
       return { ...state, loading: true };
     case 'FULFILLED_GET_ARTICLES':
-      return { ...state, loading: false, articles: payload }
+      return { ...state, message: null, loading: false, articles: payload }
     case 'REJECTED_GET_ARTICLES':
       return { ...state, loading: false, message: payload }
     default:
@@ -32,63 +32,70 @@ const reducer = (state = initialState, { type, payload }) => {
   }
 }
 
-const Home = (props) => {
+const useArticles = () => {
+
   const [state, dispatch] = useReducer(reducer, initialState);
   const [category,  setCategory] = useState('');
-  const CancelToken = axios.CancelToken;
-  const source = CancelToken.source();
+  const [toggleLoad, setToggleLoad] = useState(false);
+  const source = axios.CancelToken.source();
+  const requestToken = source.token;
   let _isMounted = true;
 
   useEffect(() => {
-    console.warn('UI');
+    //console.warn('loading source.token :)');
     const fetchDate = () => {
       // dispatch loading state
       if (_isMounted) dispatch({ type: 'INIT_GET_ARTICLES' });
       axios.get(
         `${apiURL}?apiKey=${apiKey}&language=en&pageSize=100${category.length ? '&' + category : ''}`,
-        { cancelToken: source.token, }
+        { cancelToken: requestToken, }
       )
       .then(res => {
         let { status, articles } = res.data
-        console.warn('fetching articles ', articles);
+        console.warn('articles => ', state.articles);
         if (status === 'ok' && _isMounted)
           dispatch({ type: 'FULFILLED_GET_ARTICLES', payload: articles });
         else throw new Error('Something went wrong, check Wifi or your Data.');
       })
       .catch((error) => {
-        console.warn('error --> ', error.message)
+        console.warn('error <===> ', error)
         if (_isMounted) dispatch({ type: 'REJECTED_GET_ARTICLES', payload: error.message });
       })
     }
     fetchDate();
     return function cancel() {
       _isMounted = false;
-      source.cancel();
+      source.token && source.cancel();
     }
-  }, [category]);
+  }, [ category, toggleLoad ]);
+  return [ { data: state, toggleLoad }, setCategory, setToggleLoad];
+}
+
+const Home = (props) => {
 
   const { navigate: goTo, } = props.navigation;
+  const [ { data: state, toggleLoad }, fetchArticles, reloadArticles ] = useArticles();
   /**
    * @name _onChangeCategory
    * change the category
    * @param {String} category
    */
   const _onChangeCategory = category => {
-    if(!state.loading) {
-      setCategory(category);
-    }
+    if(!state.loading) fetchArticles(category);
   }
-  const _onRefresh = () => {
-    console.warn("onRefresh ", category);
-    setCategory(category);
-  }
+  /**
+   * @name _onRefetch
+   * try to refetch new articles when user has
+   * been offline or some trouble on connexion
+   */
+  const _onRefetch = () => reloadArticles(!toggleLoad);
 
   return (
     <Container style={style.container}>
       <HeaderBar iconStyle={style.iconStyle} />
       {
         state.message
-          ? <AlertMessage message={state.message} onPress={_onRefresh} />
+          ? <AlertMessage message={state.message} onPress={_onRefetch} />
           : (
             <ScrollView>
               <VerticalCard data={state} goTo={goTo} onPress={_onChangeCategory} />
@@ -96,7 +103,8 @@ const Home = (props) => {
           )
       }
     </Container>
-  )
+  );
+
 }
 
 const style = StyleSheet.create({
