@@ -174,6 +174,7 @@ const styles = StyleSheet.create({
   },
   footerBtn: {
     backgroundColor: '#0e1636',
+    borderRadius: 0,
     borderTopStartRadius: 50,
     paddingLeft: 35,
     paddingRight: 10,

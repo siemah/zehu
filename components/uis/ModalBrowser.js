@@ -10,7 +10,7 @@ const ModalBrowser = ({ visible = false, uri, onClose=()=>{}, ...rest }) => {
     <Modal visible={visible} source={{ uri }} {...rest}>
       <Container style={styles.container}>
         <Header style={styles.header} transparent>
-          <Left style={{ backgroundColor: 'red' }}>
+          <Left>
             <Button onPress={onClose} transparent>
               <Icon name='close' style={styles.closeIcon} />
             </Button>
@@ -28,7 +28,7 @@ const ModalBrowser = ({ visible = false, uri, onClose=()=>{}, ...rest }) => {
               setWidth(width===100? 0 : width);
             }}
             renderLoading={() => <Loader />}
-            style={{ height: '100%', width: '100%', }} 
+            style={{ height: '100%', width: '100%', }}
             source={{ uri }} />
         </Content>
       </Container>
@@ -50,11 +50,11 @@ const styles = StyleSheet.create({
     fontSize: 15,
   },
   progressBar: {
-    position:'absolute', 
+    position:'absolute',
     bottom: 0,
-    left: 0, 
+    left: 0,
     height: 3,
-    backgroundColor: "blue", 
+    backgroundColor: "blue",
   },
   webViewContainer: {
     height: '100%',
