@@ -2,14 +2,15 @@ import React, { useReducer, useState, useEffect } from 'react';
 import { StyleSheet, Dimensions, ScrollView } from 'react-native';
 import { Container, } from 'native-base';
 import axios from 'axios';
-import { createStackNavigator, createAppContainer } from "react-navigation";
 
 import HeaderBar from '../uis/HeaderBar';
 import VerticalCard from '../uis/VerticalCard';
 import AlertMessage from '../uis/AlertMessage';
 
-import { apiKey, apiURL } from '../../assets/files/config';
 import Article from './Article';
+
+import { fetchArticlesReducer } from '../../store/reducers/articles';
+import { apiKey, apiURL } from '../../assets/files/config';
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('screen');
 
@@ -19,22 +20,9 @@ const initialState = {
   message: null,
 };
 
-const reducer = (state = initialState, { type, payload }) => {
-  switch (type) {
-    case 'INIT_GET_ARTICLES':
-      return { ...state, loading: true, message: null };
-    case 'FULFILLED_GET_ARTICLES':
-      return { ...state, message: null, loading: false, articles: payload }
-    case 'REJECTED_GET_ARTICLES':
-      return { ...state, loading: false, message: payload }
-    default:
-      return state
-  }
-}
-
 const useArticles = () => {
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatch] = useReducer(fetchArticlesReducer, initialState);
   const [category,  setCategory] = useState(null);
   const [toggleLoad, setToggleLoad] = useState(false);
   const source = axios.CancelToken.source();
@@ -124,25 +112,4 @@ const style = StyleSheet.create({
 
 })
 
-const AppNavigator = createStackNavigator({
-  News: {
-    screen: Home,
-    path: '/news/default',
-    navigationOptions: ({ navigation }) => ({
-      title: `Bom's Profile'`,
-      header: null,
-    }),
-    headerBackTitleVisible: false,
-  },
-  Article: {
-    screen: Article,
-    path: '/news/article/:url',
-    navigationOptions: {
-      header: null,
-    }
-  }
-});
-
-export default createAppContainer(AppNavigator);
-
-//export default Home;
+export default Home;
