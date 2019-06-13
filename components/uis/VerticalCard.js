@@ -5,7 +5,7 @@ import { View, Text, Content, Body, Left, Thumbnail, List, ListItem } from 'nati
 import ScrollThumbnail from './ScrollThumbnail';
 
 const removeHtmlTags = html => html.replace(/<\/?[p|div|em|del|strong|b|u|i]>/gi, "");
-const VerticalCard = ({ data, goTo, onPress=()=>{} }) => {
+const VerticalCard = ({ data, goTo=null, onPress=null }) => {
   const { loading, articles } = data;
   return (
     <Content>
@@ -13,7 +13,7 @@ const VerticalCard = ({ data, goTo, onPress=()=>{} }) => {
       <List
         showsVerticalScrollIndicator={false}
         showsHorizontalScrollIndicator={false}>
-        <ScrollThumbnail onPress={onPress} />
+        { onPress && <ScrollThumbnail onPress={onPress} /> }
         {
           loading ?
             (<ActivityIndicator size='large' color='#0e1636' style={styles.activityIndicator} />) :

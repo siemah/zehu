@@ -8,8 +8,8 @@ const CircleThumbnail = ({ source, title='', category='', style={}, onPress=()=>
     <TouchableOpacity style={[style, styles.container]} onPress={_onPress} activeOpacity={1}>
       <Content contentContainerStyle={styles.content}>
         <View style={styles.thumbnailContainer}>
-          <Thumbnail source={source} style={styles.thumbnail} large/>
-        </View>   
+          <Thumbnail source={source} style={styles.thumbnail} />
+        </View>
         <Text style={styles.text}>{ title }</Text>
       </Content>
     </TouchableOpacity>
@@ -26,9 +26,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   thumbnailContainer: {
-    borderRadius: 80, 
-    borderColor: '#cc518b', 
-    borderWidth: 2, 
+    borderRadius: 80,
+    borderColor: '#cc518b',
+    borderWidth: 2,
     padding: 2,
   },
   thumbnail: {
