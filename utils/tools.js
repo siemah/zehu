@@ -3,13 +3,13 @@ import AsyncStorage from '@react-native-community/async-storage';
 /**
  * @author siemah
  * @version 1.0.0
- * @note all of those under function return a Promise 
+ * @note all of those under function return a Promise
  *       and they return a values when the current promise is fulfilled
- * some helpers function 
+ * some helpers function
  */
 
 /**
- * @name saveArticle 
+ * @name saveArticle
  * save the passed article to read latter
  * @param {Object} article contain list of item of the current articlie like title, content...
  * @return {Boolean} true if article saved with success otherwise false
@@ -18,10 +18,10 @@ export const saveArticle = async article => {
   try {
     let currentArticles = await getListOfSavedArticles();
     let isExists = await getArticle(article.url);
-    
+
     if (currentArticles.length && isExists === null )
       currentArticles = [ ...currentArticles, article];
-    else 
+    else
       currentArticles = [ article ];
 
     currentArticles = JSON.stringify(currentArticles);
@@ -34,10 +34,10 @@ export const saveArticle = async article => {
 }
 
 /**
- * @namre removeArticle 
+ * @namre removeArticle
  * delete an article from savedArticles list '@articles'
  * @param {String} url source url address
- * @return {Boolean} true when success or false 
+ * @return {Boolean} true when success or false
  */
 export const removeArticle = async url => {
   try {
@@ -52,16 +52,16 @@ export const removeArticle = async url => {
 }
 
 /**
- * @name getArticle 
+ * @name getArticle
  * retrieve the article using url of source
  * @param {String} url link to current article
  * @return {Object} current article by url
  */
-const getArticle = async url => {
+export const getArticle = async url => {
   let articles = await getListOfSavedArticles();
   let article = articles.filter(art => art.url === url);
-  return article.length 
-          ? article[0] 
+  return article.length
+          ? article[0]
           : null;
 }
 
@@ -76,7 +76,7 @@ export const getListOfSavedArticles = async () => {
 }
 
 /**
- * @name getCurrentItem 
+ * @name getCurrentItem
  * check if the itemName is exist in AsyncStorage
  * @param {String} itemName name of item
  * @return {Mixed|null} the value of itemName

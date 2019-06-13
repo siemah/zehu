@@ -1,6 +1,6 @@
 /* @flow */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -13,7 +13,7 @@ import { Card, Thumbnail, CardItem, Container, Content, Left, Body, Icon, Button
 import moment from 'moment';
 
 import ModalBrowser from '../uis/ModalBrowser';
-import { saveArticle, removeArticle } from '../../utils/tools'
+import { saveArticle, removeArticle, getArticle } from '../../utils/tools'
 
 /**
  * @name Article
@@ -46,6 +46,18 @@ const Article = ({ navigation }) => {
   const _onPressVisitSource = () => setVisible(visible => !visible );
   // return to previous navigatio like NewsHome
   const _onBack = () => navigation.goBack();
+  // check if the current article saved before
+  useEffect(() => {
+    let bookmarkedBefore = async () => {
+      try {
+        let exist = await getArticle(url);
+        setIsBookmarked(!!exist);
+      } catch(e){
+        setIsBookmarked(false);
+      }
+    }
+    bookmarkedBefore();
+  }, [isBookmarked]);
 
   return (
     <Container>
