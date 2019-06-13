@@ -28,7 +28,7 @@ const ModalBrowser = ({ visible = false, uri, onClose=()=>{}, ...rest }) => {
               setWidth(width===100? 0 : width);
             }}
             renderLoading={() => <Loader />}
-            style={{ height: '100%', width: '100%', }}
+            style={styles.webview}
             source={{ uri }} />
         </Content>
       </Container>
@@ -59,7 +59,11 @@ const styles = StyleSheet.create({
   webViewContainer: {
     height: '100%',
     width: '100%',
-  }
+  },
+  webview: { 
+    height: '100%', 
+    width: '100%', 
+  },
 })
 
 export default ModalBrowser;

@@ -22,7 +22,7 @@ const initialState = {
 const reducer = (state = initialState, { type, payload }) => {
   switch (type) {
     case 'INIT_GET_ARTICLES':
-      return { ...state, loading: true };
+      return { ...state, loading: true, message: null };
     case 'FULFILLED_GET_ARTICLES':
       return { ...state, message: null, loading: false, articles: payload }
     case 'REJECTED_GET_ARTICLES':

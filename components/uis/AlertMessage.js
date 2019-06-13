@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   View,
   Text,
   StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
 import { Button, Icon, Content, } from 'native-base';
 
@@ -14,7 +15,7 @@ const AlertMessage = ({ message='Something went wrong :(', onPress=null }) => {
       </View>
       <View style={styles.center}>
         <Button onPress={onPress} style={[styles.center, styles.btn]} bordered warning>
-        <Icon name='warning' />
+          <Icon name='warning' />
           <Text style={styles.text}>Try again</Text>
         </Button>
       </View>

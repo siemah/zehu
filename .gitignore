@@ -6,7 +6,6 @@
 #
 build/
 __tests__/
-android/
 *.pbxuser
 !default.pbxuser
 *.mode1v3
