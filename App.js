@@ -5,18 +5,19 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import {Platform, StyleSheet, Text, View, SafeAreaView} from 'react-native';
 import { Container } from 'native-base';
 
 //import Splash from './components/pages/Splash';
-import NewsHome from './components/pages/NewsHome';
+import MainDrawerNavigator from './components/menus/MainDrawerNavigator';
+
 
 export default class App extends Component {
 
   render() {
     return (
       <Container>
-        <NewsHome />
+        <MainDrawerNavigator />
       </Container>
     );
   }
