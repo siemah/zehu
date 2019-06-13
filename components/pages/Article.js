@@ -7,8 +7,10 @@ import {
   StyleSheet,
   Image,
   ScrollView,
+  TouchableOpacity,
 } from 'react-native';
 import { Card, Thumbnail, CardItem, Container, Content, Left, Body, Icon, Button, Footer, Right } from 'native-base'
+import moment from 'moment';
 
 import ModalBrowser from '../uis/ModalBrowser';
 import { saveArticle, removeArticle } from '../../utils/tools'
@@ -55,19 +57,19 @@ const Article = ({ navigation }) => {
               <View style={styles.thumbnailContainer}>
                 <Thumbnail source={{ uri: image.url }} style={styles.thumbnail} square />
               </View>
-              <Body>
+              <Body style={{paddingLeft: 5}}>
                 <Text style={styles.author}>{ author }</Text>
                 <Text style={styles.secondaryText}>{ feed.title }</Text>
-                <Text style={styles.secondaryText}>{ date_published }</Text>
+                <Text style={styles.secondaryText}>{ moment(date_published).fromNow() }</Text>
               </Body>
-              <Button onPress={_onPressBookmark} transparent>
+              <TouchableOpacity onPress={_onPressBookmark} style={{paadingRight: 0, }} activeOpacity={0.8}>
                 <Icon
                   name={isBookmarked ? 'bookmark' : 'bookmark-outline'}
                   active={true}
                   type='MaterialCommunityIcons'
                   style={styles.saveBtn}
                 />
-              </Button>
+              </TouchableOpacity>
             </Left>
           </CardItem>
           <CardItem style={styles.articleImageContainer} cardBody>
@@ -79,7 +81,7 @@ const Article = ({ navigation }) => {
             <Text style={styles.articleTitle}>{ title }</Text>
           </View>
           <ScrollView showsVerticalScrollIndicator={false}>
-            <Text style={styles.articleContent}>{ summary }</Text>
+            <Text style={styles.articleContent}>{`\t`} { summary }</Text>
           </ScrollView>
         </View>
       </Content>
