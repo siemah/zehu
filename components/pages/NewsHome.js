@@ -35,7 +35,7 @@ const reducer = (state = initialState, { type, payload }) => {
 const useArticles = () => {
 
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [category,  setCategory] = useState('');
+  const [category,  setCategory] = useState(null);
   const [toggleLoad, setToggleLoad] = useState(false);
   const source = axios.CancelToken.source();
   const requestToken = source.token;
@@ -47,18 +47,17 @@ const useArticles = () => {
       // dispatch loading state
       if (_isMounted) dispatch({ type: 'INIT_GET_ARTICLES' });
       axios.get(
-        `${apiURL}?apiKey=${apiKey}&language=en&pageSize=100${category.length ? '&' + category : ''}`,
+        `https://api.recsys.opera.com/api/1.0/suggestions/list?count=50&language=en${category ? '&category='+category : ''}`,
         { cancelToken: requestToken, }
       )
       .then(res => {
-        let { status, articles } = res.data
-        console.warn('articles => ', state.articles);
-        if (status === 'ok' && _isMounted)
+        let { articles } = res.data
+        if (articles.length && _isMounted)
           dispatch({ type: 'FULFILLED_GET_ARTICLES', payload: articles });
         else throw new Error('Something went wrong, check Wifi or your Data.');
       })
       .catch((error) => {
-        console.warn('error <===> ', error)
+        console.warn('error --> ', error)
         if (_isMounted) dispatch({ type: 'REJECTED_GET_ARTICLES', payload: error.message });
       })
     }

@@ -19,11 +19,11 @@ const VerticalCard = ({ data, goTo, onPress=()=>{} }) => {
             (<ActivityIndicator size='large' color='#0e1636' style={styles.activityIndicator} />) :
             (
               articles.map(article => (
-                <ListItem key={article.url} thumbnail noIndent noBorder={true} onPress={() => {
+                <ListItem key={article.id} thumbnail noIndent noBorder={true} onPress={() => {
                   goTo('Article', article)
                 }}>
                   <Left style={{ elevation: 15, backgroundColor: 'rgba(255,255,255, 0.005)' }}>
-                    <Thumbnail source={{ uri: article.urlToImage }} style={styles.thumbnail} square large />
+                    <Thumbnail source={{ uri: article.image.url }} style={styles.thumbnail} square large />
                   </Left>
                   <Body>
                     <View>
@@ -31,7 +31,7 @@ const VerticalCard = ({ data, goTo, onPress=()=>{} }) => {
                     </View>
                     <View>
                       <Text numberOfLines={2} style={styles.articleExtract}>
-                        {article.description}
+                        { removeHtmlTags(article.summary) }
                       </Text>
                     </View>
                     {/** here maybe will add some like and stuffs like that */}

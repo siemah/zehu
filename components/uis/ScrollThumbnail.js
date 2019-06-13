@@ -6,10 +6,10 @@ const ScrollThumbnail = ({onPress}) => {
   return (
     <View style={style.container}>
       <ScrollView horizontal showsHorizontalScrollIndicator={false} >
-        <CircleThumbnail onPress={onPress} category='general' source={require('../../assets/images/news.jpg')} title='News' />
-        <CircleThumbnail onPress={onPress} category='sports' source={require('../../assets/images/movies.jpg')} title='Movies' />
-        <CircleThumbnail onPress={onPress} category='technology' source={require('../../assets/images/prayer.jpg')} title='Prayer' />
-        <CircleThumbnail onPress={onPress} category='business' source={require('../../assets/images/weather.png')} title='Weather' />
+        <CircleThumbnail onPress={onPress} category={null} source={require('../../assets/images/news.jpg')} title='General' />
+        <CircleThumbnail onPress={onPress} category='sp' source={require('../../assets/images/movies.jpg')} title='Sports' />
+        <CircleThumbnail onPress={onPress} category='te' source={require('../../assets/images/prayer.jpg')} title='Tech' />
+        <CircleThumbnail onPress={onPress} category='po' source={require('../../assets/images/weather.png')} title='Politic' />
       </ScrollView>
     </View>
   )

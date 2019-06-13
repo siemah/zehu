@@ -21,7 +21,7 @@ import { saveArticle, removeArticle } from '../../utils/tools'
  * display article content and published ..etc
  */
 const Article = ({ navigation }) => {
-  const { title, urlToImage, publishedAt, content, author, url, source } = navigation.state.params;
+  const { title, image, date_published, summary, author='Unknownen author', url, feed } = navigation.state.params;
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [visible, setVisible] = useState(false)
   /**
@@ -53,12 +53,12 @@ const Article = ({ navigation }) => {
           <CardItem>
             <Left>
               <View style={styles.thumbnailContainer}>
-                <Thumbnail source={{ uri: urlToImage }} style={styles.thumbnail} square />
+                <Thumbnail source={{ uri: image.url }} style={styles.thumbnail} square />
               </View>
               <Body>
                 <Text style={styles.author}>{ author }</Text>
-                <Text style={styles.secondaryText}>{ source.name }</Text>
-                <Text style={styles.secondaryText}>{ publishedAt }</Text>
+                <Text style={styles.secondaryText}>{ feed.title }</Text>
+                <Text style={styles.secondaryText}>{ date_published }</Text>
               </Body>
               <Button onPress={_onPressBookmark} transparent>
                 <Icon
@@ -71,15 +71,15 @@ const Article = ({ navigation }) => {
             </Left>
           </CardItem>
           <CardItem style={styles.articleImageContainer} cardBody>
-            <Image source={{ uri: urlToImage }} style={styles.articleImage} />
+            <Image source={{ uri: image.url }} style={styles.articleImage} />
           </CardItem>
         </Card>
         <View style={styles.contentContainer}>
           <View style={styles.articleTitleContainer}>
-            <Text style={styles.articleTitle}>{title}</Text>
+            <Text style={styles.articleTitle}>{ title }</Text>
           </View>
           <ScrollView showsVerticalScrollIndicator={false}>
-            <Text style={styles.articleContent}>{content}</Text>
+            <Text style={styles.articleContent}>{ summary }</Text>
           </ScrollView>
         </View>
       </Content>
