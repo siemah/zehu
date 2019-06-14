@@ -5,7 +5,7 @@ import {
   StyleSheet,
 } from 'react-native';
 
-import Article from './Article';
+import HeaderBar from '../uis/HeaderBar';
 import VerticalCard from '../uis/VerticalCard';
 
 import { fetchArticlesReducer } from '../../store/reducers/articles';
@@ -17,6 +17,14 @@ const initialState = {
   message: null,
 }
 
+/**
+ * @author siemah
+ * @version 1.0.0
+ * @name Bookmark
+ * Render a list of articles saved on phone
+ * @param {Object} props list herited or passed from React.Component or parent
+ * @return React.Component
+ */
 const Bookmark = ({ navigation }) => {
   const [data, dispatch] = useReducer(fetchArticlesReducer, initialState);
   useEffect(() => {
@@ -32,7 +40,7 @@ const Bookmark = ({ navigation }) => {
   }, []);
   return (
     <View style={styles.container}>
-      <Text>I'm the Bookmark component {data.articles.length}</Text>
+      <HeaderBar />
       <VerticalCard data={data} goTo={navigation.navigate} />
     </View>
   );

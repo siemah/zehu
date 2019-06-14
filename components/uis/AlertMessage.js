@@ -3,10 +3,21 @@ import {
   View,
   Text,
   StyleSheet,
-  ActivityIndicator,
 } from 'react-native';
 import { Button, Icon, Content, } from 'native-base';
 
+/**
+ * @author siemah
+ * @version 1.0.0
+ * @name AlertMessage
+ * Render a message with a button action
+ * @param {Object} herited from React.Component 
+ * and passed by parent where contain :
+ * message the title render
+ * onPress action firend when button clicked
+ * buttonText button title
+ * @return React.Component
+ */
 const AlertMessage = ({ message='Something went wrong :(', onPress=null, buttonText='Try again', ...rest }) => {
   return (
     <Content contentContainerStyle={{ ...styles.center, ...styles.container }} {...rest}>
