@@ -7,18 +7,22 @@ import {
 } from 'react-native';
 import { Button, Icon, Content, } from 'native-base';
 
-const AlertMessage = ({ message='Something went wrong :(', onPress=null }) => {
+const AlertMessage = ({ message='Something went wrong :(', onPress=null, buttonText='Try again', ...rest }) => {
   return (
-    <Content contentContainerStyle={{...styles.center, ...styles.container}}>
+    <Content contentContainerStyle={{ ...styles.center, ...styles.container }} {...rest}>
       <View style={styles.messageContainer}>
         <Text style={styles.text}>{ message }</Text>
       </View>
-      <View style={styles.center}>
-        <Button onPress={onPress} style={[styles.center, styles.btn]} bordered warning>
-          <Icon name='warning' />
-          <Text style={styles.text}>Try again</Text>
-        </Button>
-      </View>
+      {
+        onPress && (
+          <View style={styles.center}>
+            <Button onPress={onPress} style={[styles.center, styles.btn]} bordered warning>
+              <Icon name='warning' />
+              <Text style={styles.text}>{buttonText}</Text>
+            </Button>
+          </View>
+        )
+      }
     </Content>
   );
 }

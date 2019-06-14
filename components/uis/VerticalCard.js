@@ -1,12 +1,68 @@
 import React from 'react'
-import { StyleSheet, ActivityIndicator, FlatList } from 'react-native';
-import { View, Text, Content, Body, Left, Thumbnail, List, ListItem, Icon } from 'native-base'
+import { 
+  StyleSheet, 
+  ActivityIndicator, 
+  FlatList,
+  Dimensions,
+} from 'react-native';
+import { 
+  View, 
+  Text, 
+  Content, 
+  Body, 
+  Left, 
+  Thumbnail, 
+  List, 
+  ListItem, 
+} from 'native-base'
 
 import ScrollThumbnail from './ScrollThumbnail';
+import AlertMessage from './AlertMessage'
 
+const { height } = Dimensions.get('screen');
 const removeHtmlTags = html => html.replace(/<\/?[p|div|em|del|strong|b|u|i]>/gi, "");
+/**
+ * @author siemah
+ * @version 1.0.0
+ * @name VerticalCard
+ * UI component for display a list of article items 
+ * @param {Object} props list of props herit from React and other HOC
+ * @return React.Component
+ */
 const VerticalCard = ({ data, goTo=null, onPress=null }) => {
-  const { loading, articles } = data;
+  const { loading, articles, message } = data;
+  /**
+   * @name _renderItem
+   * render each item depend on data passed to FlatList
+   * @param {Object} contain item and index as props
+   * @return React.Component
+   */
+  const _renderItem = ({ item: article }) => {
+    const { url = null } = article && article.image;
+    const imageSource = url !== null && url.length ? { uri: url } : require('../../assets/images/logo-150x150.png');
+
+    return (
+      <ListItem key={article.id} thumbnail noIndent noBorder={true} onPress={() => {
+        goTo('Article', article)
+      }}>
+        <Left style={{ elevation: 15, backgroundColor: 'rgba(255,255,255, 0.005)' }}>
+          <Thumbnail source={imageSource} style={styles.thumbnail} square large />
+        </Left>
+        <Body>
+          <View>
+            <Text numberOfLines={2} style={styles.articleTitle}>{article.title}</Text>
+          </View>
+          <View>
+            <Text numberOfLines={2} style={styles.articleExtract}>
+              {removeHtmlTags(article.summary)}
+            </Text>
+          </View>
+          {/** here maybe will add some like and stuffs like that */}
+        </Body>
+        <View style={styles.divider}></View>
+      </ListItem>
+    )
+  };
   
   return (
     <Content>
@@ -23,35 +79,11 @@ const VerticalCard = ({ data, goTo=null, onPress=null }) => {
               <FlatList
                 data={articles}
                 keyExtractor={(item) => item.id}
-                renderItem={({ item: article }) => {
-                  const { url=null } = article && article.image;
-                  const imageSource = url !== null && url.length ? { uri: url } : require('../../assets/images/logo-150x150.png');
-  
-                  return (
-                  <ListItem key={article.id} thumbnail noIndent noBorder={true} onPress={() => {
-                    goTo('Article', article)
-                   }}>
-                    <Left style={{ elevation: 15, backgroundColor: 'rgba(255,255,255, 0.005)' }}>
-                      <Thumbnail source={imageSource} style={styles.thumbnail} square large />
-                    </Left>
-                    <Body>
-                      <View>
-                        <Text numberOfLines={2} style={styles.articleTitle}>{article.title}</Text>
-                      </View>
-                      <View>
-                        <Text numberOfLines={2} style={styles.articleExtract}>
-                          {removeHtmlTags(article.summary)}
-                        </Text>
-                      </View>
-                      {/** here maybe will add some like and stuffs like that */}
-                    </Body>
-                    <View style={styles.divider}></View>
-                  </ListItem>
-                )}}
+                renderItem={_renderItem}
+                ListEmptyComponent={<AlertMessage message={message} style={{height}} />}
               />
             )
         }
-
       </List>
     </Content>
   )
