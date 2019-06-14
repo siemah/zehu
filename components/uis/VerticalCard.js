@@ -7,7 +7,6 @@ import ScrollThumbnail from './ScrollThumbnail';
 const removeHtmlTags = html => html.replace(/<\/?[p|div|em|del|strong|b|u|i]>/gi, "");
 const VerticalCard = ({ data, goTo=null, onPress=null }) => {
   const { loading, articles } = data;
-  console.warn('artices on flat', articles);
   
   return (
     <Content>
@@ -24,12 +23,16 @@ const VerticalCard = ({ data, goTo=null, onPress=null }) => {
               <FlatList
                 data={articles}
                 keyExtractor={(item) => item.id}
-                renderItem={({ item: article }) => (
+                renderItem={({ item: article }) => {
+                  const { url=null } = article && article.image;
+                  const imageSource = url !== null && url.length ? { uri: url } : require('../../assets/images/logo-150x150.png');
+  
+                  return (
                   <ListItem key={article.id} thumbnail noIndent noBorder={true} onPress={() => {
                     goTo('Article', article)
                    }}>
                     <Left style={{ elevation: 15, backgroundColor: 'rgba(255,255,255, 0.005)' }}>
-                      <Thumbnail source={{ uri: article.image.url }} style={styles.thumbnail} square large />
+                      <Thumbnail source={imageSource} style={styles.thumbnail} square large />
                     </Left>
                     <Body>
                       <View>
@@ -44,7 +47,7 @@ const VerticalCard = ({ data, goTo=null, onPress=null }) => {
                     </Body>
                     <View style={styles.divider}></View>
                   </ListItem>
-                )}
+                )}}
               />
             )
         }
