@@ -12,11 +12,13 @@ import { Header, Body, Left, Button, Icon, Text, Content, Item, Input } from 'na
  * @param {String} title is a header title
  * @param {Object} iconStyle represent a style object of IconMenu
  */
-const HeaderBar = ({ title='Search for ..', iconStyle={color: '#0e1636'}, ...rest }) => {
+const HeaderBar = ({ onPress=null, title='Search for ..', iconStyle={color: '#0e1636'}, ...rest }) => {
   return (
     <View {...rest}>
       <Header transparent style={style.header}>
-        <TouchableOpacity style={[style.center, style.iconBtn]}>
+        <TouchableOpacity 
+          onPress={onPress}
+          style={[style.center, style.iconBtn]}>
           <Icon name='menu' style={iconStyle} />
         </TouchableOpacity>
         <Content>

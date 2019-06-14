@@ -60,7 +60,7 @@ const useArticles = () => {
 
 const Home = (props) => {
 
-  const { navigate: goTo, } = props.navigation;
+  const { navigate: goTo, toggleDrawer } = props.navigation;
   const [ { data: state, toggleLoad }, fetchArticles, reloadArticles ] = useArticles();
   /**
    * @name _onChangeCategory
@@ -79,7 +79,7 @@ const Home = (props) => {
 
   return (
     <Container style={style.container}>
-      <HeaderBar iconStyle={style.iconStyle} />
+      <HeaderBar onPress={toggleDrawer} iconStyle={style.iconStyle} />
       {
         state.message
           ? <AlertMessage message={state.message} onPress={_onRefetch} />

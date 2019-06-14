@@ -1,7 +1,6 @@
 import React, { useEffect, useReducer } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
 } from 'react-native';
 
@@ -26,6 +25,8 @@ const initialState = {
  * @return React.Component
  */
 const Bookmark = ({ navigation }) => {
+  const { toggleDrawer } = navigation;
+  
   const [data, dispatch] = useReducer(fetchArticlesReducer, initialState);
   useEffect(() => {
     dispatch({ type: 'INIT_GET_ARTICLES' });
@@ -40,7 +41,7 @@ const Bookmark = ({ navigation }) => {
   }, []);
   return (
     <View style={styles.container}>
-      <HeaderBar />
+      <HeaderBar onPress={toggleDrawer} />
       <VerticalCard data={data} goTo={navigation.navigate} />
     </View>
   );
