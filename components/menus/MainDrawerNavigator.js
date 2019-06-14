@@ -3,13 +3,21 @@ import { createAppContainer, createDrawerNavigator } from 'react-navigation';
 
 import BookmarkNavigator from './BookmarkNavigation';
 import NewsNavigator from './NewsNavigation';
+import { Icon } from 'native-base';
 
 const DrawerNavigator = createDrawerNavigator({
   'News Bookmark': {
-    screen: BookmarkNavigator
+    screen: BookmarkNavigator,
+    navigationOptions: {
+      drawerLabel: 'Bookmark',
+      drawerIcon: ({ tintColor}) => (<Icon name='md-archive' style={{color: tintColor, fontSize: 30, }} />)
+    },
   },
   News: {
-    screen: NewsNavigator
+    screen: NewsNavigator,
+    navigationOptions: {
+      drawerIcon: ({ tintColor }) => (<Icon name='md-paper' style={{ color: tintColor, fontSize: 30, }} />)
+    },
   },
 }, {
   drawerBackgroundColor: '#0e1636',
