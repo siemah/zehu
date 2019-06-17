@@ -1,12 +1,32 @@
 import AsyncStorage from '@react-native-community/async-storage';
 
 /**
- * @author siemah
+ * @author siemahs
  * @version 1.0.0
  * @note all of those under function return a Promise
- *       and they return a values when the current promise is fulfilled
+ *      where this promise resolving to a boolean or native type as to whether the specified
  * some helpers function
  */
+
+ /**
+  * @name saveUserLocation 
+  * save some details about user geolocation
+  * @param {Object} coords contain longitude and altitude location
+  * @param {Number} timestamp like his name say
+  * @return {Boolean} true in case saved with success otherwise false
+  * @throws Failed to save location details
+  */
+export const saveUserLocation = async (coords, timestamp) => {
+  try {
+    const locationData = JSON.stringify({ coords,timestamp });
+    await AsyncStorage.setItem('@location', locationData);
+    throw new Error('Try to show error on alert MSG :)');
+    return true;
+  } catch (error) {
+    console.warn("error saving location ", error.message);
+    return error.message;
+  }
+} 
 
 /**
  * @name saveArticle

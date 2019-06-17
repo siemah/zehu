@@ -2,13 +2,15 @@ import React, { useEffect, useReducer } from 'react';
 import {
   View,
   StyleSheet,
+  PermissionsAndroid,
+  Alert
 } from 'react-native';
 
 import HeaderBar from '../uis/HeaderBar';
 import VerticalCard from '../uis/VerticalCard';
 
 import { fetchArticlesReducer } from '../../store/reducers/articles';
-import { getListOfSavedArticles } from '../../utils/tools';
+import { getListOfSavedArticles, saveUserLocation } from '../../utils/tools';
 
 const initialState = {
   loading: false,
@@ -29,6 +31,44 @@ const Bookmark = ({ navigation }) => {
   
   const [data, dispatch] = useReducer(fetchArticlesReducer, initialState);
   useEffect(() => {
+    // check if the user has a geolocation permission enabled
+      // then if yes will try to retrieve a current location
+      // else display a popup to enable a location where Android >= 6
+    const checkLocationPermission = async () => {
+      try {
+        let locationIsEnabled = await PermissionsAndroid.check("android.permission.ACCESS_FINE_LOCATION");
+        console.warn("cheking location permission is enabled: ", locationIsEnabled);
+        if(locationIsEnabled) {
+          let response = await PermissionsAndroid.request("android.permission.ACCESS_FINE_LOCATION");
+          if(response === 'granted') {
+            navigator.geolocation.getCurrentPosition(
+              async ({ coords, timestamp}) => {
+                let isSaved = await saveUserLocation({ coords, timestamp });
+                if( typeof isSaved === 'string' ) Alert.alert(
+                  'Failed to save your location details',
+                  isSaved,
+                  [
+                    { text: 'Yes, I know', style: 'cancel'},
+                    { text: 'Try again', style: 'destructive' },
+                    { text: 'Later', style: 'default' }
+                  ],
+                  {
+                    cancelable: false,
+                  }
+                )
+              },
+              err => console.warn(err)
+            );
+          }
+          
+        }
+      } catch (error) {
+        console.warn("error ", error.message);
+        
+      }
+    }
+    checkLocationPermission();
+
     dispatch({ type: 'INIT_GET_ARTICLES' });
     let getArticles = async () => {
       let articles = await getListOfSavedArticles();
