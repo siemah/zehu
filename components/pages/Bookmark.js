@@ -31,6 +31,7 @@ const Bookmark = ({ navigation }) => {
   
   const [data, dispatch] = useReducer(fetchArticlesReducer, initialState);
   useEffect(() => {
+    const _isMount = true;
     // check if the user has a geolocation permission enabled
       // then if yes will try to retrieve a current location
       // else display a popup to enable a location where Android >= 6
@@ -69,15 +70,17 @@ const Bookmark = ({ navigation }) => {
     }
     checkLocationPermission();
 
-    dispatch({ type: 'INIT_GET_ARTICLES' });
+    if (_isMount) dispatch({ type: 'INIT_GET_ARTICLES' });
     let getArticles = async () => {
       let articles = await getListOfSavedArticles();
-      if(articles.length)
+      if (articles.length && _isMount)
         dispatch({ type: 'FULFILLED_GET_ARTICLES', payload: articles });
-      else
+      else if(_isMount )
         dispatch({ type: 'REJECTED_GET_ARTICLES', payload: 'You don\'t have save any articles' });
     }
     getArticles();
+    // cleanup the fetching from asyncstorage articles
+    return () => _isMount = false;
   }, []);
   return (
     <View style={styles.container}>
