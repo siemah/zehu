@@ -28,9 +28,11 @@ const initialState = {
  */
 const Bookmark = ({ navigation }) => {
   const { toggleDrawer } = navigation;
-  
+
   const [data, dispatch] = useReducer(fetchArticlesReducer, initialState);
   useEffect(() => {
+    console.warn(data.articles.length);
+    
     const _isMount = true;
     // check if the user has a geolocation permission enabled
       // then if yes will try to retrieve a current location
@@ -38,7 +40,6 @@ const Bookmark = ({ navigation }) => {
     const checkLocationPermission = async () => {
       try {
         let locationIsEnabled = await PermissionsAndroid.check("android.permission.ACCESS_FINE_LOCATION");
-        console.warn("cheking location permission is enabled: ", locationIsEnabled);
         if(locationIsEnabled) {
           let response = await PermissionsAndroid.request("android.permission.ACCESS_FINE_LOCATION");
           if(response === 'granted') {
@@ -58,14 +59,15 @@ const Bookmark = ({ navigation }) => {
                   }
                 )
               },
-              err => console.warn(err)
+              err => { 
+                throw new Error (err);
+              }
             );
           }
           
         }
       } catch (error) {
         console.warn("error ", error.message);
-        
       }
     }
     checkLocationPermission();
@@ -81,7 +83,7 @@ const Bookmark = ({ navigation }) => {
     getArticles();
     // cleanup the fetching from asyncstorage articles
     return () => _isMount = false;
-  }, []);
+  }, [data.articles.length]);
   return (
     <View style={styles.container}>
       <HeaderBar onPress={toggleDrawer} />

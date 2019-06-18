@@ -20,7 +20,6 @@ export const saveUserLocation = async (coords, timestamp) => {
   try {
     const locationData = JSON.stringify({ coords,timestamp });
     await AsyncStorage.setItem('@location', locationData);
-    throw new Error('Try to show error on alert MSG :)');
     return true;
   } catch (error) {
     console.warn("error saving location ", error.message);
