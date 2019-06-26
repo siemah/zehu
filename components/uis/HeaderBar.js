@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Header, Body, Left, Button, Icon, Text, Content, Item, Input } from 'native-base';
 
@@ -12,7 +12,10 @@ import { Header, Body, Left, Button, Icon, Text, Content, Item, Input } from 'na
  * @param {String} title is a header title
  * @param {Object} iconStyle represent a style object of IconMenu
  */
-const HeaderBar = ({ onPress=null, title='Search for ..', iconStyle={color: '#0e1636'}, ...rest }) => {
+const HeaderBar = ({ onPress=null, onSubmit=null, title='Search for ..', iconStyle={color: '#0e1636'}, ...rest }) => {
+  const [search, setSearch] = useState('');
+  const _onChange = ({ target: searchKey }) => setSearch(searchKey);
+ 
   return (
     <View {...rest}>
       <Header transparent style={style.header}>
@@ -23,8 +26,8 @@ const HeaderBar = ({ onPress=null, title='Search for ..', iconStyle={color: '#0e
         </TouchableOpacity>
         <Content>
           <Item rounded style={[style.inputItem]} >
-            <Input placeholder={title} style={style.input} />
-            <Icon active name='search' onPress={()=> alert('Hey there')} />
+            <Input placeholder={title} onChange={_onChange} onSubmitEditing={onSubmit} style={style.input} />
+            <Icon active name='search' onPress={onSubmit} />
           </Item>
         </Content>
       </Header>

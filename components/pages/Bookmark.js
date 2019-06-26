@@ -33,7 +33,7 @@ const Bookmark = ({ navigation }) => {
   useEffect(() => {
     console.warn(data.articles.length);
     
-    const _isMount = true;
+    let _isMount = true;
     // check if the user has a geolocation permission enabled
       // then if yes will try to retrieve a current location
       // else display a popup to enable a location where Android >= 6
@@ -59,8 +59,9 @@ const Bookmark = ({ navigation }) => {
                   }
                 )
               },
-              err => { 
-                throw new Error (err);
+              err => {
+                console.warn("hey you", err) 
+                //throw new Error (err);
               }
             );
           }

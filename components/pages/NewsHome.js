@@ -24,6 +24,7 @@ const useArticles = () => {
 
   const [state, dispatch] = useReducer(fetchArticlesReducer, initialState);
   const [category,  setCategory] = useState(null);
+  const [search, setSearch] = useState(null);
   const [toggleLoad, setToggleLoad] = useState(false);
   const source = axios.CancelToken.source();
   const requestToken = source.token;
@@ -35,7 +36,7 @@ const useArticles = () => {
       // dispatch loading state
       if (_isMounted) dispatch({ type: 'INIT_GET_ARTICLES' });
       axios.get(
-        `https://api.recsys.opera.com/api/1.0/suggestions/list?count=50&language=en${category ? '&category='+category : ''}`,
+        `https://api.recsys.opera.com/api/1.0/suggestions/list?count=50&language=en${search? '&search=' + search : ''}${category ? '&category='+category : ''}`,
         { cancelToken: requestToken, }
       )
       .then(res => {
@@ -54,14 +55,14 @@ const useArticles = () => {
       _isMounted = false;
       source.token && source.cancel();
     }
-  }, [ category, toggleLoad ]);
-  return [ { data: state, toggleLoad }, setCategory, setToggleLoad];
+  }, [ category, toggleLoad, search ]);
+  return [ { data: state, toggleLoad }, setCategory, setToggleLoad, setSearch];
 }
 
 const Home = (props) => {
 
   const { navigate: goTo, toggleDrawer } = props.navigation;
-  const [ { data: state, toggleLoad }, fetchArticles, reloadArticles ] = useArticles();
+  const [ { data: state, toggleLoad }, fetchArticles, reloadArticles, searchFor ] = useArticles();
   /**
    * @name _onChangeCategory
    * change the category
@@ -79,7 +80,7 @@ const Home = (props) => {
 
   return (
     <Container style={style.container}>
-      <HeaderBar onPress={toggleDrawer} iconStyle={style.iconStyle} />
+      <HeaderBar onPress={toggleDrawer} onSubmit={searchFor} iconStyle={style.iconStyle} />
       {
         state.message
           ? <AlertMessage message={state.message} onPress={_onRefetch} />
