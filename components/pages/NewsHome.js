@@ -1,5 +1,5 @@
 import React, { useReducer, useState, useEffect } from 'react';
-import { StyleSheet, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, Dimensions, ScrollView, RefreshControl } from 'react-native';
 import { Container, } from 'native-base';
 import axios from 'axios';
 
@@ -26,6 +26,7 @@ const useArticles = () => {
   const [category,  setCategory] = useState(null);
   const [search, setSearch] = useState(null);
   const [toggleLoad, setToggleLoad] = useState(false);
+  const [refreshing, setRefreshing] = useState(false)
   const source = axios.CancelToken.source();
   const requestToken = source.token;
   let _isMounted = true;
@@ -34,20 +35,28 @@ const useArticles = () => {
     //console.warn('loading source.token :)');
     const fetchDate = () => {
       // dispatch loading state
-      if (_isMounted) dispatch({ type: 'INIT_GET_ARTICLES' });
+      if (_isMounted) {
+        dispatch({ type: 'INIT_GET_ARTICLES' });
+        setRefreshing(true);
+      }
       axios.get(
         `https://api.recsys.opera.com/api/1.0/suggestions/list?count=50&language=en${search? '&search=' + search : ''}${category ? '&category='+category : ''}`,
         { cancelToken: requestToken, }
       )
       .then(res => {
-        let { articles } = res.data
-        if (articles.length && _isMounted)
+        let { articles } = res.data;
+        if (articles.length && _isMounted){
+          setRefreshing(false);
           dispatch({ type: 'FULFILLED_GET_ARTICLES', payload: articles });
+        }
         else throw new Error('Something went wrong, check Wifi or your Data.');
       })
       .catch((error) => {
         console.warn('error --> ', error)
-        if (_isMounted) dispatch({ type: 'REJECTED_GET_ARTICLES', payload: error.message });
+        if (_isMounted) { 
+          setRefreshing(false);
+          dispatch({ type: 'REJECTED_GET_ARTICLES', payload: error.message });
+        }
       })
     }
     fetchDate();
@@ -56,13 +65,14 @@ const useArticles = () => {
       source.token && source.cancel();
     }
   }, [ category, toggleLoad, search ]);
-  return [ { data: state, toggleLoad }, setCategory, setToggleLoad, setSearch];
+  return [ { data: state, toggleLoad, refreshing }, setCategory, setToggleLoad, setSearch];
 }
 
 const Home = (props) => {
 
-  const { navigate: goTo, toggleDrawer } = props.navigation;
-  const [ { data: state, toggleLoad }, fetchArticles, reloadArticles, searchFor ] = useArticles();
+  //const { navigate: goTo, toggleDrawer } = props.navigation;
+  const goTo = toggleDrawer = null;
+  const [{ data: state, toggleLoad, refreshing }, fetchArticles, reloadArticles, searchFor ] = useArticles();
   /**
    * @name _onChangeCategory
    * change the category
@@ -85,7 +95,16 @@ const Home = (props) => {
         state.message
           ? <AlertMessage message={state.message} onPress={_onRefetch} />
           : (
-            <ScrollView>
+            <ScrollView 
+              refreshControl={
+                <RefreshControl 
+                  refreshing={refreshing}
+                  color="#0e1636"
+                  onRefresh={()=>{
+                    _onRefetch();
+                  }}
+                />
+              } >
               <VerticalCard data={state} goTo={goTo} onPress={_onChangeCategory} />
             </ScrollView>
           )
