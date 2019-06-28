@@ -70,8 +70,7 @@ const useArticles = () => {
 
 const Home = (props) => {
 
-  //const { navigate: goTo, toggleDrawer } = props.navigation;
-  const goTo = toggleDrawer = null;
+  const { navigate: goTo, toggleDrawer } = props.navigation;
   const [{ data: state, toggleLoad, refreshing }, fetchArticles, reloadArticles, searchFor ] = useArticles();
   /**
    * @name _onChangeCategory
@@ -100,9 +99,7 @@ const Home = (props) => {
                 <RefreshControl 
                   refreshing={refreshing}
                   color="#0e1636"
-                  onRefresh={()=>{
-                    _onRefetch();
-                  }}
+                  onRefresh={_onRefetch}
                 />
               } >
               <VerticalCard data={state} goTo={goTo} onPress={_onChangeCategory} />

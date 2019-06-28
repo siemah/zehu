@@ -10,15 +10,16 @@ import { Container } from 'native-base';
 
 //import Splash from './components/pages/Splash';
 import MainDrawerNavigator from './components/menus/MainDrawerNavigator';
+//import Fetch from './components/pages/Fetch';
 
+//import NewsContext, { newsContextState } from './store/context/news'; 
 
-export default class App extends Component {
+const App = () => {
+  return (
+    <Container>
+      <MainDrawerNavigator />
+    </Container>
+  );
+},
 
-  render() {
-    return (
-      <Container>
-        <MainDrawerNavigator />
-      </Container>
-    );
-  }
-}
+export default App;

@@ -3,14 +3,24 @@ import { createAppContainer, createDrawerNavigator } from 'react-navigation';
 
 import BookmarkNavigator from './BookmarkNavigation';
 import NewsNavigator from './NewsNavigation';
+//import Fetch from '../pages/Fetch';
+//import Login from '../pages/Login';
+import MoviesHome from '../pages/MoviesHome';
 import { Icon } from 'native-base';
 
 const DrawerNavigator = createDrawerNavigator({
+  MoviesHome: {
+    screen: MoviesHome,
+    navigationOptions: {
+      drawerLabel: 'Movies',
+      drawerIcon: ({ tintColor }) => (<Icon name='md-film' style={{ color: tintColor, fontSize: 30, }} />)
+    },
+  },
   'News Bookmark': {
     screen: BookmarkNavigator,
     navigationOptions: {
       drawerLabel: 'Bookmark',
-      drawerIcon: ({ tintColor}) => (<Icon name='md-archive' style={{color: tintColor, fontSize: 30, }} />)
+      drawerIcon: ({ tintColor}) => (<Icon name='md-archive' style={{ color: tintColor, fontSize: 30, }} />)
     },
   },
   News: {
