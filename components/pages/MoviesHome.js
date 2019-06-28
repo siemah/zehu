@@ -4,6 +4,8 @@ import { View, Text, ScrollView, StyleSheet, ImageBackground } from 'react-nativ
 import HeaderBar from '../uis/HeaderBar';
 import { Container, Content, Card, CardItem } from 'native-base';
 
+import CardImage from '../uis/CardImage'
+
 const apiUrl = 'https://api.themoviedb.org/3';
 const apiKey = "28ecfb177a1845471436402e21e6f977";
 const popularMoviesUrl = `${apiUrl}/movie/popular?api_key=$${apiKey}`;
@@ -23,19 +25,23 @@ const MoviesHome = ({ navigation }) => {
       <Content>
         <ScrollView showsHorizontalScrollIndicator={false} horizontal>
           <Card style={styles.card} transparent>
-            <CardItem style={styles.moviePosterContainer} cardBody>
-              <ImageBackground source={require('../../assets/images/movies.jpg')} style={styles.moviePoster} />
-            </CardItem>
+            <CardImage 
+              title='Movies title name of the best movies ever'
+              source={require('../../assets/images/movies.jpg')} 
+              containerStyle={styles.moviePosterContainer} 
+              imageStyle={styles.moviePoster} />
           </Card>
           <Card style={styles.card} transparent>
-            <CardItem style={styles.moviePosterContainer} cardBody>
-              <ImageBackground source={require('../../assets/images/movies.jpg')} style={styles.moviePoster} />
-            </CardItem>
+            <CardImage 
+              source={require('../../assets/images/movies.jpg')} 
+              containerStyle={styles.moviePosterContainer} 
+              imageStyle={styles.moviePoster} />
           </Card>
           <Card style={styles.card} transparent>
-            <CardItem style={styles.moviePosterContainer} cardBody>
-              <ImageBackground source={require('../../assets/images/movies.jpg')} style={styles.moviePoster} />
-            </CardItem>
+            <CardImage 
+              source={require('../../assets/images/movies.jpg')} 
+              containerStyle={styles.moviePosterContainer} 
+              imageStyle={styles.moviePoster} />
           </Card>
         </ScrollView>
       </Content>
@@ -58,7 +64,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     flex: 1,
     borderRadius: 10,
-    height: 200,
+    height: 180,
     width: 250,
     elevation: 10,
   },

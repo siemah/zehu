@@ -20,6 +20,6 @@ const App = () => {
       <MainDrawerNavigator />
     </Container>
   );
-},
+}
 
 export default App;
