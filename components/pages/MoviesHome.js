@@ -1,8 +1,8 @@
 import React from 'react'
-import { View, Text, ScrollView, StyleSheet, ImageBackground } from 'react-native';
+import { View, Text, ScrollView, StyleSheet, } from 'react-native';
 
 import HeaderBar from '../uis/HeaderBar';
-import { Container, Content, Card, CardItem } from 'native-base';
+import { Container, Content, Card, Body, Right, Icon, CardItem, H1, H3 } from 'native-base';
 
 import CardImage from '../uis/CardImage'
 
@@ -23,27 +23,35 @@ const MoviesHome = ({ navigation }) => {
         iconStyle={styles.iconStyle}
        />
       <Content>
-        <ScrollView showsHorizontalScrollIndicator={false} horizontal>
-          <Card style={styles.card} transparent>
-            <CardImage 
-              title='Movies title name of the best movies ever'
-              source={require('../../assets/images/movies.jpg')} 
-              containerStyle={styles.moviePosterContainer} 
-              imageStyle={styles.moviePoster} />
-          </Card>
-          <Card style={styles.card} transparent>
-            <CardImage 
-              source={require('../../assets/images/movies.jpg')} 
-              containerStyle={styles.moviePosterContainer} 
-              imageStyle={styles.moviePoster} />
-          </Card>
-          <Card style={styles.card} transparent>
-            <CardImage 
-              source={require('../../assets/images/movies.jpg')} 
-              containerStyle={styles.moviePosterContainer} 
-              imageStyle={styles.moviePoster} />
-          </Card>
-        </ScrollView>
+      <ScrollView showsHorizontalScrollIndicator={false} horizontal>
+        <Card style={styles.card} transparent>
+          <CardImage 
+            title='Movies title name of the best movies ever'
+            source={require('../../assets/images/movies.jpg')} 
+            containerStyle={styles.moviePosterContainer} 
+            imageStyle={styles.moviePoster} />
+        </Card>
+        <Card style={styles.card} transparent>
+          <CardImage 
+            source={require('../../assets/images/movies.jpg')} 
+            containerStyle={styles.moviePosterContainer} 
+            imageStyle={styles.moviePoster} />
+        </Card>
+        <Card style={styles.card} transparent>
+          <CardImage 
+            source={require('../../assets/images/movies.jpg')} 
+            containerStyle={styles.moviePosterContainer} 
+            imageStyle={styles.moviePoster} />
+        </Card>
+      </ScrollView>
+        <CardItem>
+          <Body>
+            <H3 style={{color: '#0e1636'}}>Movies list</H3>
+          </Body>
+          <Right>
+            <Icon name="md-arrow-forward" style={{...styles.iconStyle, fontSize: 30}} />
+          </Right>
+        </CardItem>
       </Content>
     </Container>
   )

@@ -1,11 +1,10 @@
 import React from 'react'
-import { View, Text, StyleSheet, ImageBackground } from 'react-native';
-import { CardItem } from 'native-base';
+import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react-native';
 
-
-export default function CardImage({ source, containerStyle=null, imageStyle=null, title=null}) {
+export default function CardImage({ source, containerStyle=null, imageStyle=null, title=null, onPress=null, ...rest}) {
   return (
-    <CardItem style={containerStyle} onPress={() => alert('Display all details about this funcking movies')} cardBody>
+    <TouchableOpacity style={containerStyle}  onPress={onPress} {...rest}>
+
       <ImageBackground source={source} style={imageStyle} />
       {
         title && (
@@ -14,7 +13,8 @@ export default function CardImage({ source, containerStyle=null, imageStyle=null
           </View>
         )
       }
-    </CardItem>
+
+    </TouchableOpacity>
   )
 }
 
@@ -24,12 +24,13 @@ const styles = StyleSheet.create({
     bottom: 0,
     left: 0,
     width: '100%',
-    backgroundColor: 'rgba(0, 0, 0, .5)',
-    padding: 5,
+    backgroundColor: 'rgba(0, 0, 0, .3)',
+    padding: 10,
   },
   title: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '700',
     color: '#fff',
+    textTransform: 'uppercase',
   }
 })
