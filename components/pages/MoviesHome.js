@@ -2,9 +2,11 @@ import React from 'react'
 import { View, Text, ScrollView, StyleSheet, } from 'react-native';
 
 import HeaderBar from '../uis/HeaderBar';
-import { Container, Content, Card, Body, Right, Icon, CardItem, H1, H3 } from 'native-base';
+import { Container, Content, } from 'native-base';
 
 import CardImage from '../uis/CardImage'
+import MoviesListHorizontal from '../uis/MoviesListHorizontal';
+import TitleIcon from '../uis/Title';
 
 const apiUrl = 'https://api.themoviedb.org/3';
 const apiKey = "28ecfb177a1845471436402e21e6f977";
@@ -15,6 +17,39 @@ const movieUrl = `${apiUrl}/movie/<movie-id>?api_key=$${apiKey}`;
 
 const MoviesHome = ({ navigation }) => {
   let { navigate: goTo, toggleDrawer } = navigation;
+  const moviesList = [
+    {
+      id: 1,
+      title: 'Some fucking title',
+      source: require('../../assets/images/movies.jpg'),
+    },
+    {
+      id: 11,
+      title: null,
+      source: require('../../assets/images/movies.jpg'),
+    },
+    {
+      id: 111,
+      title: null,
+      source: require('../../assets/images/movies.jpg'),
+    },
+    {
+      id: 1222,
+      title: null,
+      source: require('../../assets/images/movies.jpg'),
+    },
+    {
+      id: 551,
+      title: null,
+      source: require('../../assets/images/movies.jpg'),
+    },
+    {
+      id: 556561,
+      title: null,
+      source: require('../../assets/images/movies.jpg'),
+    },
+  ];
+  console.warn("sss ..");
 
   return (
     <Container>
@@ -23,35 +58,11 @@ const MoviesHome = ({ navigation }) => {
         iconStyle={styles.iconStyle}
        />
       <Content>
-      <ScrollView showsHorizontalScrollIndicator={false} horizontal>
-        <Card style={styles.card} transparent>
-          <CardImage 
-            title='Movies title name of the best movies ever'
-            source={require('../../assets/images/movies.jpg')} 
-            containerStyle={styles.moviePosterContainer} 
-            imageStyle={styles.moviePoster} />
-        </Card>
-        <Card style={styles.card} transparent>
-          <CardImage 
-            source={require('../../assets/images/movies.jpg')} 
-            containerStyle={styles.moviePosterContainer} 
-            imageStyle={styles.moviePoster} />
-        </Card>
-        <Card style={styles.card} transparent>
-          <CardImage 
-            source={require('../../assets/images/movies.jpg')} 
-            containerStyle={styles.moviePosterContainer} 
-            imageStyle={styles.moviePoster} />
-        </Card>
-      </ScrollView>
-        <CardItem>
-          <Body>
-            <H3 style={{color: '#0e1636'}}>Movies list</H3>
-          </Body>
-          <Right>
-            <Icon name="md-arrow-forward" style={{...styles.iconStyle, fontSize: 30}} />
-          </Right>
-        </CardItem>
+        <MoviesListHorizontal data={moviesList} />
+        <TitleIcon title='Top Movies' icon="md-arrow-forward" iconStyle={styles.iconStyle} />
+        <MoviesListHorizontal cardImageContainerStyle={styles.smallCard} data={moviesList} />
+        <TitleIcon title='Top Series' icon="md-arrow-forward" iconStyle={styles.iconStyle} />
+        <MoviesListHorizontal cardImageContainerStyle={styles.smallCard} data={moviesList} />
       </Content>
     </Container>
   )
@@ -63,23 +74,11 @@ const styles = StyleSheet.create({
     color: '#0e1636',
     fontSize: 40,
   },
-  card: {
-    overflow: 'hidden',
-  },
-  moviePosterContainer: {
-    overflow: 'hidden',
-    marginHorizontal: 15,
-    marginBottom: 15,
-    flex: 1,
-    borderRadius: 10,
-    height: 180,
-    width: 250,
-    elevation: 10,
-  },
-  moviePoster: {
-    height: '100%', 
-    width: '100%',
-    resizeMode: 'cover',
+  smallCard: {
+    width: 120,
+    height: 150,
+    marginHorizontal: 5,
+    elevation: 5, 
   }
 })
 

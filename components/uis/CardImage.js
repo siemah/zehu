@@ -3,22 +3,27 @@ import { View, Text, StyleSheet, ImageBackground, TouchableOpacity } from 'react
 
 export default function CardImage({ source, containerStyle=null, imageStyle=null, title=null, onPress=null, ...rest}) {
   return (
-    <TouchableOpacity style={containerStyle}  onPress={onPress} {...rest}>
+    <View style={styles.overflow}>
+      <TouchableOpacity style={containerStyle}  onPress={onPress} {...rest}>
 
-      <ImageBackground source={source} style={imageStyle} />
-      {
-        title && (
-          <View style={styles.titleContainer}>
-            <Text style={styles.title}>{title}</Text>
-          </View>
-        )
-      }
+        <ImageBackground source={source} style={imageStyle} />
+        {
+          title && (
+            <View style={styles.titleContainer}>
+              <Text style={styles.title}>{title}</Text>
+            </View>
+          )
+        }
 
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </View>
   )
 }
 
 const styles = StyleSheet.create({
+  overflow: {
+    overflow: 'hidden',
+  },
   titleContainer: {
     position: 'absolute',
     bottom: 0,
