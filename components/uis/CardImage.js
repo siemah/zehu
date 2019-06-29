@@ -10,7 +10,7 @@ export default function CardImage({ source, containerStyle=null, imageStyle=null
         {
           title && (
             <View style={styles.titleContainer}>
-              <Text style={styles.title}>{title}</Text>
+              <Text numberOfLines={2} style={styles.title}>{title}</Text>
             </View>
           )
         }
