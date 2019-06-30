@@ -1,14 +1,15 @@
 import React, { useReducer, useEffect, useState, } from 'react'
-import { StyleSheet, } from 'react-native';
+import { StyleSheet, Dimensions} from 'react-native';
 import { Container, Content, Spinner, } from 'native-base';
 import axios from "axios";
 
 import HeaderBar from '../uis/HeaderBar';
 import MoviesListHorizontal from '../uis/MoviesListHorizontal';
 import TitleIcon from '../uis/Title';
-
+import AlertMessage from '../uis/AlertMessage';
 import { fetchMoviesAndSeriesReducer, initialState } from '../../store/reducers/movies';
 
+const { height } = Dimensions.get('screen');
 const apiUrl = 'https://api.themoviedb.org/3';
 const apiKey = "28ecfb177a1845471436402e21e6f977";
 const popularMoviesUrl = `${apiUrl}/movie/popular?api_key=${apiKey}`;
@@ -56,7 +57,7 @@ const useMovies = () => {
         _isMount && dispatch({ type: 'FULFILLED_GET_MOVIES_AND_SERIES', payload: { series, movies } });
       } catch (error) {
         console.warn(error.message);
-        _isMount && dispatch({ type: 'REJECTED_GET_MOVIES', error: error.message})
+        _isMount && dispatch({ type: 'REJECTED_GET_MOVIES', payload: error.message})
       }
     };
     fetchData();
@@ -72,7 +73,7 @@ const useMovies = () => {
 const MoviesHome = ({ navigation }) => {
   let { navigate: goTo, toggleDrawer } = navigation;
   const [ data, fetchData ] = useMovies();
-  let { loading, movies, series } = data;
+  let { loading, movies, series, message } = data;
   
   return (
     <Container>
@@ -81,16 +82,22 @@ const MoviesHome = ({ navigation }) => {
         iconStyle={styles.iconStyle}
        />
       <Content>
-        {
+      {
           loading 
             ? <Spinner size='large' color='#0e1636' />
             : (
               <>
-                <MoviesListHorizontal data={movies.results} />
-                <TitleIcon title='Top Movies' icon="md-arrow-forward" iconStyle={styles.iconStyle} />
-                <MoviesListHorizontal cardImageContainerStyle={styles.smallCard} data={movies.results} />
-                <TitleIcon title='Top Series' icon="md-arrow-forward" iconStyle={styles.iconStyle} />
-                <MoviesListHorizontal cardImageContainerStyle={styles.smallCard} data={series.results} />
+                {
+                  message
+                    ? <AlertMessage message={message} style={{ height: height - 80 }} onPress={fetchData} buttonText={'Try Again'} />
+                    : <>
+                      <MoviesListHorizontal data={movies.results} />
+                      <TitleIcon title='Top Movies' icon="md-arrow-forward" iconStyle={styles.iconStyle} />
+                      <MoviesListHorizontal cardImageContainerStyle={styles.smallCard} data={movies.results} />
+                      <TitleIcon title='Top Series' icon="md-arrow-forward" iconStyle={styles.iconStyle} />
+                      <MoviesListHorizontal cardImageContainerStyle={styles.smallCard} data={series.results} />
+                    </> 
+                } 
               </>
             )
         }

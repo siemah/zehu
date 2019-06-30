@@ -15,7 +15,6 @@ import CardImage from './CardImage';
  * @return {React.Component}
  */
 const MoviesListHorizontal = ({ data = [], cardImageContainerStyle=null, cardImageStyle=null, ...rest}) => {
-  //console.warn(data);
   
   return (
     <FlatList
