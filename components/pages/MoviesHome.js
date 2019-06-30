@@ -91,11 +91,11 @@ const MoviesHome = ({ navigation }) => {
                   message
                     ? <AlertMessage message={message} style={{ height: height - 80 }} onPress={fetchData} buttonText={'Try Again'} />
                     : <>
-                      <MoviesListHorizontal data={movies.results} />
+                      <MoviesListHorizontal data={movies.results} onPressItem={goTo} />
                       <TitleIcon title='Top Movies' icon="md-arrow-forward" iconStyle={styles.iconStyle} />
-                      <MoviesListHorizontal cardImageContainerStyle={styles.smallCard} data={movies.results} />
+                      <MoviesListHorizontal cardImageContainerStyle={styles.smallCard} data={movies.results} onPressItem={goTo} />
                       <TitleIcon title='Top Series' icon="md-arrow-forward" iconStyle={styles.iconStyle} />
-                      <MoviesListHorizontal cardImageContainerStyle={styles.smallCard} data={series.results} />
+                      <MoviesListHorizontal cardImageContainerStyle={styles.smallCard} data={series.results} onPressItem={goTo} />
                     </> 
                 } 
               </>

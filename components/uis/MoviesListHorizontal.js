@@ -14,7 +14,7 @@ import CardImage from './CardImage';
  * 2/- cardImageContainerStyle and cardImageStyle present a styles of CardImage container and the image inside it
  * @return {React.Component}
  */
-const MoviesListHorizontal = ({ data = [], cardImageContainerStyle=null, cardImageStyle=null, ...rest}) => {
+const MoviesListHorizontal = ({ data = [], cardImageContainerStyle = null, cardImageStyle = null, onPressItem=null, ...rest}) => {
   
   return (
     <FlatList
@@ -22,15 +22,22 @@ const MoviesListHorizontal = ({ data = [], cardImageContainerStyle=null, cardIma
       horizontal 
       data={data}
       keyExtractor={item=> `${item.id}`}
-      renderItem={({item}) => (
-        <Card style={[styles.card,]} key={item.id} transparent>
-          <CardImage
-            title={item.title}
-            source={item.source}
-            containerStyle={[styles.moviePosterContainer, cardImageContainerStyle]}
-            imageStyle={[styles.moviePoster, cardImageStyle]} />
-        </Card>
-      )}
+      renderItem={({ item }) => {
+        const _onPress = onPressItem
+          ? () => onPressItem('Movie', item)
+          : null;
+        return (
+          <Card style={[styles.card,]} key={item.id} transparent>
+            <CardImage
+              onPress={_onPress}
+              id={item.id}
+              title={item.title}
+              source={item.source}
+              containerStyle={[styles.moviePosterContainer, cardImageContainerStyle]}
+              imageStyle={[styles.moviePoster, cardImageStyle]} />
+          </Card>
+        )
+      }}
       {...rest}
     />
   )
