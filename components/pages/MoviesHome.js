@@ -23,9 +23,9 @@ const movieUrl = `${apiUrl}/movie/<movie-id>?api_key=$${apiKey}`;
  */
 const useMovies = () => {
   const [state, dispatch] = useReducer(fetchMoviesAndSeriesReducer, initialState);
-  const [reload, setReload] = useState(false);
-  const source = axios.CancelToken.source();
-  const requestToken = source.token;
+  const [reload, setReload] = useState(false);// to handle the change of data is a toggle
+  const source = axios.CancelToken.source();// axios source of request use it cancel it
+  const requestToken = source.token;// generate token for request
   /**
    * @name _getPromise
    * return a promise of GET method using axios
@@ -46,7 +46,6 @@ const useMovies = () => {
   }));
   let _isMount = true;
 
-  
   useEffect(() => {
     const fetchData = async () => {
       _isMount && dispatch({ type: 'INIT_FETCHING' });

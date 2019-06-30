@@ -18,19 +18,22 @@ const MoviesListHorizontal = ({ data = [], cardImageContainerStyle=null, cardIma
   //console.warn(data);
   
   return (
-    <ScrollView showsHorizontalScrollIndicator={false} horizontal {...rest}>
-      {
-        data.map( ({id, title=null, source=null }) => (
-          <Card style={[styles.card,]} key={id} transparent>
-            <CardImage
-              title={title}
-              source={source}
-              containerStyle={[styles.moviePosterContainer, cardImageContainerStyle]}
-              imageStyle={[styles.moviePoster, cardImageStyle]} />
-          </Card>
-        ))
-      }
-    </ScrollView>
+    <FlatList
+      showsHorizontalScrollIndicator={false}
+      horizontal 
+      data={data}
+      keyExtractor={item=> `${item.id}`}
+      renderItem={({item}) => (
+        <Card style={[styles.card,]} key={item.id} transparent>
+          <CardImage
+            title={item.title}
+            source={item.source}
+            containerStyle={[styles.moviePosterContainer, cardImageContainerStyle]}
+            imageStyle={[styles.moviePoster, cardImageStyle]} />
+        </Card>
+      )}
+      {...rest}
+    />
   )
 };
 
