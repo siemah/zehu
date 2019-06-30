@@ -5,14 +5,14 @@ import BookmarkNavigator from './BookmarkNavigation';
 import NewsNavigator from './NewsNavigation';
 //import Fetch from '../pages/Fetch';
 //import Login from '../pages/Login';
-import MoviesHome from '../pages/MoviesHome';
+import MoviesNavigator from './MoviesNavigator';
 import { Icon } from 'native-base';
 
 const DrawerNavigator = createDrawerNavigator({
-  MoviesHome: {
-    screen: MoviesHome,
+  MoviesNavigator: {
+    screen: MoviesNavigator,
     navigationOptions: {
-      drawerLabel: 'Movies',
+      drawerLabel: 'Movies & Series',
       drawerIcon: ({ tintColor }) => (<Icon name='md-film' style={{ color: tintColor, fontSize: 30, }} />)
     },
   },
