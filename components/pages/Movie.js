@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Dimensions, ImageBackground, Text } from 'react-native'
 
 import HeaderIcon from '../uis/HeaderIcon';
-import { Content, Button, Icon, Left, Right, Body, CardItem } from 'native-base';
+import { Content, Button, Icon, Left, Right, Body, H1, H3, Row, Col, } from 'native-base';
+import Axios from 'axios';
 
-const { height, width } = Dimensions.get('screen');  
+const { height, width } = Dimensions.get('screen'); 
 
 const Movie = ({ navigation=null }) => {
-  //let { title, source, id, } = navigation.state.params;
-  //console.warn(source, id);
+  /*let { title, source, id, vote_average, video, overview } = navigation.state.params;
+    current movie has: release_date, genres: [{id, name}], production_countries: [{id, name}], release_date, runtime(movies duration)
+  */
   
   return (
     <Content style={styles.container}>
@@ -21,7 +23,7 @@ const Movie = ({ navigation=null }) => {
       </View>
       <View style={styles.contentActionsContainer}>
           <Left>
-            <Icon name='md-add' />
+            <Icon name='md-add' style={styles.iconStyle} />
           </Left>
           <Body>
             <Button style={styles.playiconContainer} transparent onPress={alert}>
@@ -29,14 +31,59 @@ const Movie = ({ navigation=null }) => {
             </Button>
           </Body>
           <Right>
-            <Icon name='md-pause' />
+            <Icon name='md-share' style={styles.iconStyle} />
           </Right>
       </View>
+      <View style={[styles.center,]}>
+        <View style={[styles.center]}>
+          <H1>Title</H1>
+        </View>
+        <View style={[styles.center]}>
+          <Text>Category, Comedy, Drame</Text>
+        </View>
+        <View><H1>Rating Component</H1></View>
+        <Row style={[styles.row,]}>
+          <Col style={[styles.center]}>
+            <Text>Rate</Text>
+            <H3 style={styles.color}>9/10</H3>
+          </Col>
+          <Col style={[styles.center,]}>
+            <Text>Country</Text>
+            <H3 style={styles.color}>USA</H3>
+          </Col>
+          <Col style={[styles.center,]}>
+            <Text>Duration</Text>
+            <H3 style={styles.color}>123min</H3>
+          </Col>
+        </Row>
+        <View>
+          <Text style={{...styles.color, ...styles.center, padding: 15, }}>
+            Overview of the curren movie, it's kind like a description of this movie
+            Overview of the curren movie, it's kind like a description of this movie
+            Overview of the curren movie, it's kind like a description of this movie
+            Overview of the curren movie, it's kind like a description of this movie
+            Overview of the curren movie, it's kind like a description of this movie
+            Overview of the curren movie, it's kind like a description of this movie
+            Overview of the curren movie, it's kind like a description of this movie
+            Overview of the curren movie, it's kind like a description of this movie
+            Overview of the curren movie, it's kind like a description of this movie
+            Overview of the curren movie, it's kind like a description of this movie
+            Overview of the curren movie, it's kind like a description of this movie
+            Overview of the curren movie, it's kind like a description of this movie
+            Overview of the curren movie, it's kind like a description of this movie
+            and talk aboutn scenario and 
+          </Text>
+        </View>
+      </View> 
     </Content>
   )
 }
 
 const styles = StyleSheet.create({
+  center: {
+    justifyContent: 'center', 
+    alignItems: 'center',
+  },
   container: {
     backgroundColor: '#ffffff',
     flex: 1,
@@ -87,7 +134,12 @@ const styles = StyleSheet.create({
   },
   iconStyle: {
     fontSize: 35,
-    color: '#a53546',
+    color: '#0e1636',
+  },
+  row: {
+  },
+  color: {
+    color: '#0e1636'
   }
 });
 
