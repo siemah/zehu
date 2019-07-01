@@ -56,9 +56,13 @@ const Movie = ({ navigation=null }) => {
           <Icon name='md-add' style={styles.iconStyle} />
         </Left>
         <Body>
-          <Button style={styles.playiconContainer} transparent onPress={alert}>
-            <Icon name='md-play' style={styles.iconStyle} />
-          </Button>
+          {
+            video && (
+              <Button style={styles.playiconContainer} transparent onPress={alert}>
+                <Icon name='md-play' style={styles.iconStyle} />
+              </Button>
+            )
+          }
         </Body>
         <Right>
           <Icon name='md-share' style={styles.iconStyle} />
@@ -69,7 +73,7 @@ const Movie = ({ navigation=null }) => {
           <H1>{title}</H1>
         </View>
         {
-          movie && (
+          movie && 'genres' in movie && (
             <View style={[styles.center]}>
               <Text>{ movie.genres.map(({ name }) =>  name).join(', ') }</Text>
             </View>
@@ -83,7 +87,14 @@ const Movie = ({ navigation=null }) => {
           </Col>
           <Col style={[styles.center,]}>
             <Text>Country</Text>
-            {movie && <H3 style={[styles.color, { fontSize: 11}]} numberOfLines={1}>{ movie.production_countries[0].name }</H3>}
+            { 
+              movie && 
+              (
+                <H3 style={[styles.color, { fontSize: 11}]} numberOfLines={1}>
+                  { 'production_countries' in movie ? movie.production_countries[0].name : 'Unknowen' }
+                </H3>
+              )
+            }
           </Col>
           <Col style={[styles.center,]}>
             <Text>Duration</Text>
