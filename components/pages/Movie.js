@@ -42,14 +42,13 @@ const Movie = ({ navigation=null }) => {
   */
   const [ movie=null ] = useMovie(id);
   
-  
   return (
     <Content style={styles.container}>
       <View style={styles.headerContainer}>
         <ImageBackground source={source} style={styles.movieImage} />
         <View style={styles.overlay} />
         <View style={styles.headerActionsContainer}>
-          <HeaderIcon />
+          <HeaderIcon onPressLeftIcon={navigation.goBack} />
         </View>
       </View>
       <View style={styles.contentActionsContainer}>
@@ -71,7 +70,7 @@ const Movie = ({ navigation=null }) => {
       </View>
       <View style={[styles.center,]}>
         <View style={[styles.center]}>
-          <H1>{title}</H1>
+          <H1>{title || (movie && movie.title)}</H1>
         </View>
         {
           movie && 'genres' in movie && (
@@ -90,14 +89,13 @@ const Movie = ({ navigation=null }) => {
           </Col>
           <Col style={[styles.center,]}>
             <Text>Country</Text>
+            <H3 style={[styles.color, { fontSize: 11}]} numberOfLines={2}>
             { 
-              movie && 
-              (
-                <H3 style={[styles.color, { fontSize: 11}]} numberOfLines={1}>
-                  { 'production_countries' in movie ? movie.production_countries[0].name : 'Unknowen' }
-                </H3>
-              )
+              movie && movie.production_countries.length
+                ? movie.production_countries.map(country => country.name).join(', ') 
+                : 'Unknown'                
             }
+            </H3>
           </Col>
           <Col style={[styles.center,]}>
             <Text>Duration</Text>
