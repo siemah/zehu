@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Dimensions, ImageBackground, Text } from 'react-native'
+import { Rating, AirbnbRating } from 'react-native-ratings';
 
 import HeaderIcon from '../uis/HeaderIcon';
 import { Content, Button, Icon, Left, Right, Body, H1, H3, Row, Col, } from 'native-base';
@@ -79,7 +80,9 @@ const Movie = ({ navigation=null }) => {
             </View>
           )
         }
-        <View><H1>Rating Component</H1></View>
+        <View style={{ height: 30, bottom: 40, }}>
+          <AirbnbRating count={10} size={20} defaultRating={vote_average} />
+        </View>
         <Row style={[styles.row,]}>
           <Col style={[styles.center]}>
             <Text>Rate</Text>
