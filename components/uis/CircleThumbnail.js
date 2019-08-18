@@ -5,7 +5,7 @@ import { Content, Thumbnail, Text } from 'native-base'
 const CircleThumbnail = ({ source, title='', category='', style={}, onPress=()=>{} }) => {
   const _onPress = () => onPress(category);
   return (
-    <TouchableOpacity style={[style, styles.container]} onPress={_onPress} activeOpacity={1}>
+    <TouchableOpacity style={[style, styles.container]} onPress={_onPress} activeOpacity={.7}>
       <Content contentContainerStyle={styles.content}>
         <View style={styles.thumbnailContainer}>
           <Thumbnail source={source} style={styles.thumbnail} />
