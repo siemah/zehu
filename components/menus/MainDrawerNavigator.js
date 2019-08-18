@@ -30,7 +30,7 @@ const DrawerNavigator = createDrawerNavigator({
     },
   },
 }, {
-  drawerBackgroundColor: '#0e1636',
+  drawerBackgroundColor: '#50499e',
   drawerType: 'slide',
   hideStatusBar: false,
   contentOptions: {
@@ -38,9 +38,10 @@ const DrawerNavigator = createDrawerNavigator({
       marginTop: 20
     },
     inactiveTintColor: 'white',
-    activeTintColor: '#0e1636',
+    activeTintColor: '#50499e',
     activeBackgroundColor: 'white',
   },
+  unmountInactiveRoutes: false,
 });
 
 export default createAppContainer(DrawerNavigator);
