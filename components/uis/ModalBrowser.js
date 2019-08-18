@@ -10,12 +10,12 @@ const ModalBrowser = ({ visible = false, uri, onClose=()=>{}, ...rest }) => {
     <Modal visible={visible} source={{ uri }} {...rest}>
       <Container style={styles.container}>
         <Header style={styles.header} transparent>
-          <Left>
-            <Button onPress={onClose} transparent>
+          <Left style={{maxWidth: 50, }}>
+            <Button onPress={onClose} style={{flex: 1, width: '100%', justifyContent: 'center',}} transparent>
               <Icon name='close' style={styles.closeIcon} />
             </Button>
           </Left>
-          <Body>
+          <Body >
             <Title style={styles.headerTitle}>{uri}</Title>
           </Body>
           <View style={[styles.progressBar, { width } ]}></View>
