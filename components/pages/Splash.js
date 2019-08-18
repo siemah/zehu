@@ -12,7 +12,7 @@ import splashStyle from '../../assets/styles/splash';
  */
 const Splash = props => (
   <Container>
-    <View style={[ StyleSheet.absoluteFillObject, splashStyle.center ]}>
+    <View style={[ StyleSheet.absoluteFillObject, splashStyle.center, { backgroundColor: "#50499e", },  ]}>
       <Image source={require('../../assets/images/logo-150x150.png')} style={splashStyle.brandLogo} />
     </View>
   </Container>
