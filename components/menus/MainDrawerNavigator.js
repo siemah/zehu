@@ -9,6 +9,12 @@ import MoviesNavigator from './MoviesNavigator';
 import { Icon } from 'native-base';
 
 const DrawerNavigator = createDrawerNavigator({
+  News: {
+    screen: NewsNavigator,
+    navigationOptions: {
+      drawerIcon: ({ tintColor }) => (<Icon name='md-paper' style={{ color: tintColor, fontSize: 30, }} />)
+    },
+  },
   MoviesNavigator: {
     screen: MoviesNavigator,
     navigationOptions: {
@@ -21,12 +27,6 @@ const DrawerNavigator = createDrawerNavigator({
     navigationOptions: {
       drawerLabel: 'Bookmark',
       drawerIcon: ({ tintColor}) => (<Icon name='md-archive' style={{ color: tintColor, fontSize: 30, }} />)
-    },
-  },
-  News: {
-    screen: NewsNavigator,
-    navigationOptions: {
-      drawerIcon: ({ tintColor }) => (<Icon name='md-paper' style={{ color: tintColor, fontSize: 30, }} />)
     },
   },
 }, {
