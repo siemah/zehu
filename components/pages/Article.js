@@ -123,6 +123,13 @@ const styles = StyleSheet.create({
   },
   thumbnailContainer: {
     elevation: 30,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
     backgroundColor: 'rgba(255, 255, 255, 0.005)',
   },
   thumbnail: {
@@ -136,7 +143,14 @@ const styles = StyleSheet.create({
   articleImageContainer: {
     margin: 15,
     backgroundColor: 'rgba(255, 255, 255, 0.005)',
-    elevation: 30,
+    elevation: 30,// this is for android devices to display a shadow
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 8,
+    },
+    shadowOpacity: 0.44,
+    shadowRadius: 8.27,
   },
   articleImage: {
     height: 200,
