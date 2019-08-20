@@ -31,8 +31,6 @@ const Bookmark = ({ navigation }) => {
 
   const [data, dispatch] = useReducer(fetchArticlesReducer, initialState);
   useEffect(() => {
-    console.warn(data.articles.length);
-    
     let _isMount = true;
     // check if the user has a geolocation permission enabled
       // then if yes will try to retrieve a current location
@@ -60,7 +58,6 @@ const Bookmark = ({ navigation }) => {
                 )
               },
               err => {
-                console.warn("hey you", err) 
                 //throw new Error (err);
               }
             );
@@ -68,7 +65,6 @@ const Bookmark = ({ navigation }) => {
           
         }
       } catch (error) {
-        console.warn("error ", error.message);
       }
     }
     checkLocationPermission();
