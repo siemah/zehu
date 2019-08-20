@@ -18,6 +18,7 @@ import {
 
 import ScrollThumbnail from './ScrollThumbnail';
 import AlertMessage from './AlertMessage'
+import FadeInView from '../animations/FadeInView';
 
 const { height } = Dimensions.get('screen');
 const removeHtmlTags = html => html.replace(/<\/?[p|div|em|del|strong|b|u|i]>/gi, "");
@@ -37,30 +38,32 @@ const VerticalCard = ({ data, goTo=null, onPress=null }) => {
    * @param {Object} contain item and index as props
    * @return React.Component
    */
-  const _renderItem = ({ item: article }) => {
+  const _renderItem = ({ item: article, index}) => {
     const { url = null } = article && article.image;
     const imageSource = url !== null && url.length ? { uri: url } : require('../../assets/images/logo-150x150.png');
-
+    
     return (
-      <ListItem key={article.id} thumbnail noIndent noBorder={true} onPress={() => {
-        goTo('Article', article)
-      }}>
-        <Left style={{ elevation: 15, backgroundColor: 'rgba(255,255,255, 0.005)' }}>
-          <Thumbnail source={imageSource} style={styles.thumbnail} square large />
-        </Left>
-        <Body>
-          <View>
-            <Text numberOfLines={2} style={styles.articleTitle}>{article.title}</Text>
-          </View>
-          <View>
-            <Text numberOfLines={2} style={styles.articleExtract}>
-              {removeHtmlTags(article.summary)}
-            </Text>
-          </View>
-          {/** here maybe will add some like and stuffs like that */}
-        </Body>
-        <View style={styles.divider}></View>
-      </ListItem>
+      <FadeInView delay={index * 250}>        
+        <ListItem key={article.id} thumbnail noIndent noBorder={true} onPress={() => {
+          goTo('Article', article)
+        }}>
+          <Left style={{ elevation: 15, backgroundColor: 'rgba(255,255,255, 0.005)' }}>
+            <Thumbnail source={imageSource} style={styles.thumbnail} square large />
+          </Left>
+          <Body>
+            <View>
+              <Text numberOfLines={2} style={styles.articleTitle}>{article.title}</Text>
+            </View>
+            <View>
+              <Text numberOfLines={2} style={styles.articleExtract}>
+                {removeHtmlTags(article.summary)}
+              </Text>
+            </View>
+            {/** here maybe will add some like and stuffs like that */}
+          </Body>
+          <View style={styles.divider}></View>
+        </ListItem>
+      </FadeInView>    
     )
   };
   
