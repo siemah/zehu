@@ -104,9 +104,11 @@ const styles = StyleSheet.create({
   articleTitle: {
     fontWeight: '900',
     fontSize: 20,
+    fontFamily: 'Dosis',
     color: '#0e1636',
   },
   articleExtract: {
+    fontFamily: 'Dosis',
     color: '#727484',
   },
   divider: {

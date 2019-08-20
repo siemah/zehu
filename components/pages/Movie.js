@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { View, StyleSheet, Dimensions, ImageBackground, Text } from 'react-native'
-import { Rating, AirbnbRating } from 'react-native-ratings';
+import { AirbnbRating } from 'react-native-ratings';
 
 import HeaderIcon from '../uis/HeaderIcon';
 import { Content, Button, Icon, Left, Right, Body, H1, H3, Row, Col, } from 'native-base';
@@ -75,7 +75,7 @@ const Movie = ({ navigation=null }) => {
         {
           movie && 'genres' in movie && (
             <View style={[styles.center]}>
-              <Text>{ movie.genres.map(({ name }) =>  name).join(', ') }</Text>
+              <Text style={styles.dosis}>{ movie.genres.map(({ name }) =>  name).join(', ') }</Text>
             </View>
           )
         }
@@ -84,11 +84,11 @@ const Movie = ({ navigation=null }) => {
         </View>
         <Row style={[styles.row,]}>
           <Col style={[styles.center]}>
-            <Text>Rate</Text>
+            <Text style={styles.dosis}>Rate</Text>
             <H3 style={styles.color}>{vote_average}/10</H3>
           </Col>
           <Col style={[styles.center,]}>
-            <Text>Country</Text>
+            <Text style={styles.dosis}>Country</Text>
             <H3 style={[styles.color, { fontSize: 11}]} numberOfLines={2}>
             { 
               movie && movie.production_countries.length
@@ -98,12 +98,12 @@ const Movie = ({ navigation=null }) => {
             </H3>
           </Col>
           <Col style={[styles.center,]}>
-            <Text>Duration</Text>
-            {movie && <H3 style={styles.color}>{`${movie.runtime}min`}</H3>}
+            <Text style={styles.dosis}>Duration</Text>
+            {movie && <H3 style={[styles.color, styles.dosis]}>{`${movie.runtime}min`}</H3>}
           </Col>
         </Row>
         <View>
-          <Text style={{...styles.color, ...styles.center, padding: 15, }}>
+          <Text style={{...styles.color, ...styles.center, padding: 15, ...styles.dosis, }}>
             { `\t` + overview }
           </Text>
         </View>
@@ -173,7 +173,10 @@ const styles = StyleSheet.create({
   },
   color: {
     color: '#0e1636'
-  }
+  },
+  dosis: {
+    fontFamily: 'Dosis',
+  },
 });
 
 export default Movie;

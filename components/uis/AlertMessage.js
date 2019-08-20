@@ -53,6 +53,7 @@ const styles = StyleSheet.create({
   text: {
     color: '#0e1636',
     fontSize: 24,
+    fontFamily: 'Dosis',
   },
   btn: {
     paddingRight: 20,

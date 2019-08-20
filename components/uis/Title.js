@@ -18,7 +18,7 @@ const TitleIcon = ({ title, icon, iconStyle=null}) => {
   return (
     <CardItem>
       <Body>
-        <Title style={{ color: '#0e1636' }}>{ title }</Title>
+        <Title style={{ color: '#0e1636', fontFamily: 'Dosis' }}>{ title }</Title>
       </Body>
       <Right>
         <Icon name={icon} style={{ ...iconStyle, fontSize: 30 }} />

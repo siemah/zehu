@@ -36,8 +36,10 @@ const styles = StyleSheet.create({
   },
   text: {
     textTransform: 'capitalize',
-    fontSize: 14,
+    fontSize: 16,
+    fontFamily: 'Dosis',
     color: '#636576',
+    fontWeight: "700"
   }
 })
 
