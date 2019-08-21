@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Content, Text, View, Spinner, Separator, ListItem, Left, H3, Body, } from 'native-base';
+import { Content, Text, View, Spinner, Separator, ListItem, Left, H3, Right, } from 'native-base';
 import Axios from 'axios';
 import { FlatList } from 'react-native';
 import FadeInView from '../animations/FadeInView';
@@ -47,8 +47,9 @@ const usePrayersTimes = (city=null) => {
       source.cancel('Operation canceled by the user.');
     };
   }, []);
-  return [ prayersTime, setPrayersTime]
-;}
+  return [ prayersTime, setPrayersTime];
+}
+
 const PrayersTime = () => {
   
   const [prayersTimes] = usePrayersTimes();
@@ -65,41 +66,41 @@ const PrayersTime = () => {
           <Left>
             <H3 style={styles.dosis} style={styles.dosis}>Fajr</H3>
           </Left>
-          <Body>
+          <Right>
             <H3 style={styles.dosis}>{times.Fajr}</H3>
-          </Body>
+          </Right>
         </ListItem>
         <ListItem>
           <Left>
             <H3 style={styles.dosis}>Dhuhr</H3>
           </Left>
-          <Body>
+          <Right>
             <H3 style={styles.dosis}>{times.Dhuhr}</H3>
-          </Body>
+          </Right>
         </ListItem>
         <ListItem>
           <Left>
             <H3 style={styles.dosis}>Asr</H3>
           </Left>
-          <Body>
+          <Right>
             <H3 style={styles.dosis}>{times.Asr}</H3>
-          </Body>
+          </Right>
         </ListItem>
         <ListItem>
           <Left>
             <H3 style={styles.dosis}>Maghrib</H3>
           </Left>
-          <Body>
+          <Right>
             <H3 style={styles.dosis}>{times.Maghrib}</H3>
-          </Body>
+          </Right>
         </ListItem>
         <ListItem>
           <Left>
             <H3 style={styles.dosis}>Isha</H3>
           </Left>
-          <Body>
+          <Right>
             <H3 style={styles.dosis}>{times.Isha}</H3>
-          </Body>
+          </Right>
         </ListItem>
       </FadeInView>
     );
