@@ -8,6 +8,38 @@ import AsyncStorage from '@react-native-community/async-storage';
  * some helpers function
  */
 
+/**
+ * retrieve some date details 
+ * @param {Number} timestamp present a timestamp in ms
+ */
+export const getDateObjec = timestamp => {
+  let month = timestamp.getMonth(), 
+      year = timestamp.getFullYear(),
+      day = timestamp.getDate();
+  return {month, day, year};
+}
+
+/**
+ * verify if is current day based on timestamp
+ * @param {Number} dayTimestamp timestamp of current time in seconds
+ * @return Number 0 if is current day -1 if is before this day and 1 for forward days
+ */
+export const isCurrentDayTimes = dayTimestamp => {
+ const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];;
+ let deviceTimestamp = Date.now() + + 24 * 3600;
+
+ let { month, year, day } = getDateObjec(new Date(deviceTimestamp));
+ let _afterMidnigthOfCurrentDevice = (new Date(`${months[month]} ${day}, ${year} 00:00:01`)).getTime() / 1000;
+ let _beforeMidnigthOfCurrentDeviceOfNextDay = (new Date(`${months[month]} ${day}, ${year} 23:59:59`)).getTime() / 1000;
+ 
+ if( _beforeMidnigthOfCurrentDeviceOfNextDay - dayTimestamp > 23 * 3600 ) 
+   return -1;
+ if(dayTimestamp > _afterMidnigthOfCurrentDevice && dayTimestamp < _beforeMidnigthOfCurrentDeviceOfNextDay)
+   return 0;
+ return 1;
+ 
+}
+
  /**
   * @name saveUserLocation 
   * save some details about user geolocation
