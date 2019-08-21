@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Content, Text, View, Spinner, Separator, ListItem, Left, H3, Right, } from 'native-base';
+import { Content, Text, View, Spinner, Separator, ListItem, Left, H3, Right, Icon, Container, } from 'native-base';
 import Axios from 'axios';
 import { FlatList } from 'react-native';
 import FadeInView from '../animations/FadeInView';
 import { isCurrentDayTimes } from '../../utils/tools';
+import HeaderBar from '../uis/HeaderBar';
 
 const link = `https://api.pray.zone/v2/times/this_week.json?elevation=8000&school=8`;
 /**
@@ -26,7 +27,7 @@ const usePrayersTimes = (city=null) => {
   const [prayersTime, setPrayersTime] = useState(null);
   const CancelToken = Axios.CancelToken;
   const source = CancelToken.source();
-  //if(!city && !coords) return [null];
+
   useEffect(() => {
     const fetchPrayers = async () => {
       try {
@@ -56,14 +57,22 @@ const PrayersTime = () => {
   const [prayersTimes] = usePrayersTimes();
 
   const _renderItem = ({item, index}) => {
-    
+  
     let { times, date } = item;
-    if(isCurrentDayTimes(parseInt(date.timestamp, 10)) === -1)
+    let kindOfDay = isCurrentDayTimes(parseInt(date.timestamp, 10));
+
+    if(kindOfDay === -1)
       return null;
     return (
       <FadeInView delay={index * 100}>
         <Separator style={styles.separator} bordered>
           <Text style={styles.separatorText}>{ date.gregorian}</Text>
+          {
+            kindOfDay === 0 &&  
+            <View style={styles.iconContainer}>
+              <Icon active name="md-clock" style={{color: '#50499e'}} />
+            </View>
+          }
         </Separator>
         <ListItem>
           <Left>
@@ -110,17 +119,20 @@ const PrayersTime = () => {
   }
 
   return (
+    <Container>
     <Content>
+      <HeaderBar onPress={null} onSubmit={null} style={{paddingTop: 0}} />
       {
         prayersTimes === null 
         ? <Spinner size='large' color='#50499e' />
         : <FlatList
-          data={prayersTimes.datetime}
-          renderItem={_renderItem}
-          keyExtractor={({date}, index) => `${date.timestamp}-${index}`}
+            data={prayersTimes.datetime}
+            renderItem={_renderItem}
+            keyExtractor={({date}, index) => `${date.timestamp}-${index}`}
         />
       }
     </Content>
+    </Container>
   )
 }
 
@@ -135,7 +147,11 @@ const styles = {
   separatorText: {
     ...this.dosis,
     fontSize: 15,
-  }
+  },
+  iconContainer: {
+    position: 'absolute', 
+    right: 15,
+  },
 };
 
 export default PrayersTime;
