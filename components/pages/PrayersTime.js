@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Content, Text } from 'native-base';
+import { Content, Text, View, Spinner, Separator, ListItem, Left, H3, Body, } from 'native-base';
 import Axios from 'axios';
+import { FlatList } from 'react-native';
 
 const link = `https://api.pray.zone/v2/times/this_week.json?elevation=8000&school=8`;
 /**
@@ -28,7 +29,6 @@ const usePrayersTimes = (city=null) => {
     const fetchPrayers = async () => {
       try {
         let coords = await getCoords();
-        console.warn(coords);
         let { data, status } = await Axios.get(`${link}&longitude=${coords.longitude}&latitude=${coords.latitude}`, {
           cancelToken: source.token
         });
@@ -52,11 +52,85 @@ const PrayersTime = () => {
   
   const [prayersTimes] = usePrayersTimes();
 
+  const _renderItem = ({item, index}) => {
+    //console.warn(index, item);
+    let { times, date } = item;
+    return (
+      <View>
+        <Separator style={styles.separator} bordered>
+          <Text style={styles.separatorText}>{ date.gregorian}</Text>
+        </Separator>
+        <ListItem>
+          <Left>
+            <H3 style={styles.dosis} style={styles.dosis}>Fajr</H3>
+          </Left>
+          <Body>
+            <H3 style={styles.dosis}>{times.Fajr}</H3>
+          </Body>
+        </ListItem>
+        <ListItem>
+          <Left>
+            <H3 style={styles.dosis}>Dhuhr</H3>
+          </Left>
+          <Body>
+            <H3 style={styles.dosis}>{times.Dhuhr}</H3>
+          </Body>
+        </ListItem>
+        <ListItem>
+          <Left>
+            <H3 style={styles.dosis}>Asr</H3>
+          </Left>
+          <Body>
+            <H3 style={styles.dosis}>{times.Asr}</H3>
+          </Body>
+        </ListItem>
+        <ListItem>
+          <Left>
+            <H3 style={styles.dosis}>Maghrib</H3>
+          </Left>
+          <Body>
+            <H3 style={styles.dosis}>{times.Maghrib}</H3>
+          </Body>
+        </ListItem>
+        <ListItem>
+          <Left>
+            <H3 style={styles.dosis}>Isha</H3>
+          </Left>
+          <Body>
+            <H3 style={styles.dosis}>{times.Isha}</H3>
+          </Body>
+        </ListItem>
+      </View>
+    );
+  }
+
   return (
     <Content>
-      <Text>prayers times {JSON.stringify(prayersTimes)}</Text>
+      {
+        prayersTimes === null 
+        ? <Spinner size='large' color='#50499e' />
+        : <FlatList
+          data={prayersTimes.datetime}
+          renderItem={_renderItem}
+          keyExtractor={({date}, index) => `${date.timestamp}-${index}`}
+        />
+      }
     </Content>
   )
 }
+
+const styles = {
+  dosis: {
+    fontFamily: 'Dosis',
+    fontWeight: '500'
+  },
+  separator: {
+    height: 'auto',
+  },
+  separatorText: {
+    ...this.dosis,
+    fontSize: 15,
+  }
+};
 
 export default PrayersTime;
