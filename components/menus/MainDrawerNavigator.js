@@ -7,8 +7,16 @@ import NewsNavigator from './NewsNavigation';
 //import Login from '../pages/Login';
 import MoviesNavigator from './MoviesNavigator';
 import { Icon } from 'native-base';
+import PrayersTime from '../pages/PrayersTime';
 
 const DrawerNavigator = createDrawerNavigator({
+  PrayersTime: {
+    screen: PrayersTime,
+    navigationOptions: {
+      drawerLabel: 'Prayers Time',
+      drawerIcon: ({ tintColor }) => (<Icon name='md-clock' style={{ color: tintColor, fontSize: 30, }} />)
+    },
+  },
   News: {
     screen: NewsNavigator,
     navigationOptions: {
