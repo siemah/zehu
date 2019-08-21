@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { Content, Text, View, Spinner, Separator, ListItem, Left, H3, Body, } from 'native-base';
 import Axios from 'axios';
 import { FlatList } from 'react-native';
+import FadeInView from '../animations/FadeInView';
 
 const link = `https://api.pray.zone/v2/times/this_week.json?elevation=8000&school=8`;
 /**
@@ -56,7 +57,7 @@ const PrayersTime = () => {
     //console.warn(index, item);
     let { times, date } = item;
     return (
-      <View>
+      <FadeInView delay={index * 100}>
         <Separator style={styles.separator} bordered>
           <Text style={styles.separatorText}>{ date.gregorian}</Text>
         </Separator>
@@ -100,7 +101,7 @@ const PrayersTime = () => {
             <H3 style={styles.dosis}>{times.Isha}</H3>
           </Body>
         </ListItem>
-      </View>
+      </FadeInView>
     );
   }
 
