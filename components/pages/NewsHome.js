@@ -86,7 +86,6 @@ const Home = (props) => {
    * been offline or some trouble on connexion
    */
   const _onRefetch = () => reloadArticles(!toggleLoad);
-  console.warn(state.articles);
   
   return (
     <Container style={style.container}>

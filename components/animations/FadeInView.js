@@ -5,7 +5,7 @@ const FadeInView = (props) => {
   const [pan, setPan] = useState(new Animated.ValueXY({ x: width, y: 0 }));
   useEffect(() => {
     Animated.sequence([
-      Animated.delay(props.delay || 50),
+      Animated.delay((props.delay || 50) + (props.delay || 50)),
       Animated.spring(
         pan, 
         {
