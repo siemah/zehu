@@ -76,7 +76,7 @@ const VerticalCard = ({ data, goTo=null, onPress=null }) => {
         showsHorizontalScrollIndicator={false}>
         { onPress && <ScrollThumbnail onPress={onPress} /> }
         {
-          loading 
+          loading && articles === null 
             ? <ActivityIndicator size='large' color='blue' />
             : (
               <FlatList
