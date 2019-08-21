@@ -3,6 +3,7 @@ import { Content, Text, View, Spinner, Separator, ListItem, Left, H3, Right, } f
 import Axios from 'axios';
 import { FlatList } from 'react-native';
 import FadeInView from '../animations/FadeInView';
+import { isCurrentDayTimes } from '../../utils/tools';
 
 const link = `https://api.pray.zone/v2/times/this_week.json?elevation=8000&school=8`;
 /**
@@ -55,8 +56,10 @@ const PrayersTime = () => {
   const [prayersTimes] = usePrayersTimes();
 
   const _renderItem = ({item, index}) => {
-    //console.warn(index, item);
+    
     let { times, date } = item;
+    if(isCurrentDayTimes(parseInt(date.timestamp, 10)) === -1)
+      return null;
     return (
       <FadeInView delay={index * 100}>
         <Separator style={styles.separator} bordered>
