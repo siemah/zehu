@@ -15,7 +15,7 @@ import { apiKey, apiURL } from '../../assets/files/config';
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('screen');
 
 const initialState = {
-  articles: [],
+  articles: null,
   loading: false,
   message: null,
 };
@@ -86,7 +86,8 @@ const Home = (props) => {
    * been offline or some trouble on connexion
    */
   const _onRefetch = () => reloadArticles(!toggleLoad);
-
+  console.warn(state.articles);
+  
   return (
     <Container style={style.container}>
       <HeaderBar onPress={toggleDrawer} onSubmit={searchFor} iconStyle={style.iconStyle} />
@@ -97,7 +98,7 @@ const Home = (props) => {
             <ScrollView 
               refreshControl={
                 <RefreshControl 
-                  refreshing={refreshing}
+                  refreshing={state.articles !== null && refreshing}
                   color="#0e1636"
                   onRefresh={_onRefetch}
                 />
