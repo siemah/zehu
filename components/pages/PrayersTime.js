@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Content, Text, View, Spinner, Separator, ListItem, Left, H3, Right, Icon, Container, } from 'native-base';
+import { Text, View, Spinner, Separator, ListItem, Left, H3, Right, Icon, Container, } from 'native-base';
 import Axios from 'axios';
-import { FlatList } from 'react-native';
+import { FlatList, Alert } from 'react-native';
 import FadeInView from '../animations/FadeInView';
 import { isCurrentDayTimes } from '../../utils/tools';
 import HeaderBar from '../uis/HeaderBar';
@@ -50,8 +50,15 @@ const usePrayersTimes = (city=null) => {
           _isMounted && setLoading(false);
         }
       } catch (error) {
-        console.warn(error);
+        let msg = error.response.status === 500 
+          ? 'The name of city unrecognized' 
+          : 'Verify your network and try again';
+      
         _isMounted && setLoading(false);
+        Alert.alert(
+          'Prayers times error',
+          msg
+        )
       }
     }
     fetchPrayers();
@@ -135,7 +142,6 @@ const PrayersTime = ({ navigation }) => {
       </FadeInView>
     );
   }
-  console.warn(loading);
   
   return (
     <Container>
