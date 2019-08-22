@@ -22,7 +22,7 @@ export const getCoords = config => new Promise((resolve, reject) => {
  * retrieve some date details 
  * @param {Number} timestamp present a timestamp in ms
  */
-export const getDateObjec = timestamp => {
+export const getDateObject = timestamp => {
   if( !(timestamp instanceof  Date) )
     throw new Error('Timestamp must be an instance of Date');
   let month = timestamp.getMonth(), 
@@ -40,7 +40,7 @@ export const isCurrentDayTimes = dayTimestamp => {
  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];;
  let deviceTimestamp = Date.now() + + 24 * 3600;
 
- let { month, year, day } = getDateObjec(new Date(deviceTimestamp));
+ let { month, year, day } = getDateObject(new Date(deviceTimestamp));
  let _afterMidnigthOfCurrentDevice = (new Date(`${months[month]} ${day}, ${year} 00:00:01`)).getTime() / 1000;
  let _beforeMidnigthOfCurrentDeviceOfNextDay = (new Date(`${months[month]} ${day}, ${year} 23:59:59`)).getTime() / 1000;
  
@@ -53,17 +53,32 @@ export const isCurrentDayTimes = dayTimestamp => {
 }
 
  /**
-  * @name saveUserLocation 
+  * @name saveToLocalDB 
   * save some details about user geolocation
   * @param {Object} coords contain longitude and altitude location
   * @param {Number} timestamp like his name say
   * @return {Boolean} true in case saved with success otherwise false
   * @throws Failed to save location details
   */
-export const saveUserLocation = async (coords, timestamp) => {
+const saveToLocalDB = async (name, data) => {
   try {
-    const locationData = JSON.stringify({ coords,timestamp });
-    await AsyncStorage.setItem('@location', locationData);
+    const locationData = JSON.stringify(data);
+    await AsyncStorage.setItem(`@${name}`, locationData);
+    return true;
+  } catch (error) {
+    console.warn("error saving location ", error.message);
+    return error.message;
+  }
+}
+
+/**
+ * save user location cordinates
+ * @param {Object} coords coordinate of user 
+ * @param {Number} timestamp present the current time when save a coords
+ */
+export const saveUserLocsation = async (coords, timestamp) => {
+  try {
+    await saveToLocalDB('@location', { coords,timestamp });
     return true;
   } catch (error) {
     console.warn("error saving location ", error.message);
