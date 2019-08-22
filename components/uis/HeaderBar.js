@@ -14,8 +14,12 @@ import { Header, Body, Left, Button, Icon, Text, Content, Item, Input } from 'na
  */
 const HeaderBar = ({ onPress=null, onSubmit=null, title='Search for ..', iconStyle={color: '#0e1636'}, ...rest }) => {
   const [search, setSearch] = useState('');
-  const _onChange = ({ target: searchKey }) => setSearch(searchKey);
- 
+  const _onChange = (searchKey) => {
+    setSearch(searchKey);
+  }
+  const _onSubmit = () => {
+    onSubmit(search);
+  }
   return (
     <View {...rest}>
       <Header transparent style={style.header}>
@@ -26,8 +30,8 @@ const HeaderBar = ({ onPress=null, onSubmit=null, title='Search for ..', iconSty
         </TouchableOpacity>
         <Content>
           <Item rounded style={[style.inputItem]} >
-            <Input placeholder={title} onChange={_onChange} onSubmitEditing={onSubmit} style={style.input} />
-            <Icon active name='search' onPress={onSubmit} />
+            <Input placeholder={title} onChangeText={_onChange} onSubmitEditing={_onSubmit} style={style.input} />
+            <Icon active name='search' onPress={_onSubmit} />
           </Item>
         </Content>
       </Header>
