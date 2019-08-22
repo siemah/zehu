@@ -8,6 +8,16 @@ import AsyncStorage from '@react-native-community/async-storage';
  * some helpers function
  */
 
+ /**
+ * 1- if yes, then update the state and save coords on AsyncStorage
+ * 2- if not then use a city name rather than location coords
+ */
+export const getCoords = config => new Promise((resolve, reject) => {
+  navigator.geolocation.getCurrentPosition(({coords}) => {
+    resolve(coords);
+  }, err => reject(err), config);
+})
+
 /**
  * retrieve some date details 
  * @param {Number} timestamp present a timestamp in ms
