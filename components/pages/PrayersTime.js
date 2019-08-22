@@ -6,7 +6,7 @@ import FadeInView from '../animations/FadeInView';
 import { isCurrentDayTimes } from '../../utils/tools';
 import HeaderBar from '../uis/HeaderBar';
 
-const link = `https://api.pray.zone/v2/times/this_week.json?elevation=8000&school=8`;
+const link = `https://api.pray.zone/v2/times/this_week.json?school=8`;
 /**
  * 1- if yes, then update the state and save coords on AsyncStorage
  * 2- if not then use a city name rather than location coords
@@ -23,18 +23,27 @@ const getCoords = config => new Promise((resolve, reject) => {
  * 4- cleaning fetch request
 */
 const usePrayersTimes = (city=null) => {
-  const _isMounted = true;
+  let _isMounted = true;
   const [prayersTime, setPrayersTime] = useState(null);
   const CancelToken = Axios.CancelToken;
   const source = CancelToken.source();
 
   useEffect(() => {
     const fetchPrayers = async () => {
+      let res;
       try {
-        let coords = await getCoords();
-        let { data, status } = await Axios.get(`${link}&longitude=${coords.longitude}&latitude=${coords.latitude}`, {
-          cancelToken: source.token
-        });
+        if(!city) {
+          let coords = await getCoords();
+          res = await Axios.get(`${link}&elevation=8000&longitude=${coords.longitude}&latitude=${coords.latitude}`, {
+            cancelToken: source.token
+          });
+        } else {
+          console.warn('search for city ', city, `${link}&city=${city}`);
+          res = await Axios.get(`${link}&city=${city}`, {
+            cancelToken: source.token
+          });
+        }
+        let { data, status } = res;
         if(status === 200 && data.status === 'OK') {
           _isMounted && setPrayersTime(data.results);
         }
@@ -48,13 +57,17 @@ const usePrayersTimes = (city=null) => {
       // canceling the reauest
       source.cancel('Operation canceled by the user.');
     };
-  }, []);
+  }, [city]);
   return [ prayersTime, setPrayersTime];
 }
 
-const PrayersTime = () => {
+const PrayersTime = ({ navigation }) => {
   
   const [prayersTimes] = usePrayersTimes();
+  /**
+   * render a item
+   * @param {Object} param1 contain the item and index of each element passed to data attribute
+   */
   const _renderItem = ({item, index}) => {
   
     let { times, date } = item;
@@ -116,10 +129,10 @@ const PrayersTime = () => {
       </FadeInView>
     );
   }
-
+ 
   return (
     <Container>
-      <HeaderBar onPress={null} onSubmit={null} style={{paddingTop: 0}} />
+      <HeaderBar onPress={null} onSubmit={null} />
       {
         prayersTimes === null 
         ? <Spinner size='large' color='#50499e' />
