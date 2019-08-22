@@ -55,7 +55,6 @@ const usePrayersTimes = (city=null) => {
 const PrayersTime = () => {
   
   const [prayersTimes] = usePrayersTimes();
-
   const _renderItem = ({item, index}) => {
   
     let { times, date } = item;
@@ -120,7 +119,6 @@ const PrayersTime = () => {
 
   return (
     <Container>
-    <Content>
       <HeaderBar onPress={null} onSubmit={null} style={{paddingTop: 0}} />
       {
         prayersTimes === null 
@@ -131,7 +129,6 @@ const PrayersTime = () => {
             keyExtractor={({date}, index) => `${date.timestamp}-${index}`}
         />
       }
-    </Content>
     </Container>
   )
 }
