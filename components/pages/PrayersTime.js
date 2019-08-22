@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Text, View, Spinner, Separator, ListItem, Left, H3, Right, Icon, Container, } from 'native-base';
 import Axios from 'axios';
-import { FlatList, Alert } from 'react-native';
+import { FlatList, Alert, NetInfo } from 'react-native';
 import FadeInView from '../animations/FadeInView';
-import { isCurrentDayTimes, getCoords, saveUserLocsation, savePrayersTimes } from '../../utils/tools';
+import { isCurrentDayTimes, getCoords, saveUserLocsation, savePrayersTimes, getPrayersTimes } from '../../utils/tools';
 import HeaderBar from '../uis/HeaderBar';
+//import NetInfo from "@react-native-community/netinfo";
 
 const link = `https://api.pray.zone/v2/times/this_week.json?school=8`;
 
@@ -18,6 +19,7 @@ const usePrayersTimes = (city=null) => {
   let _isMounted = true;
   const [prayersTimes, setPrayersTimes] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isOffline, setIsOffline] = useState(false);
   const CancelToken = Axios.CancelToken;
   const source = CancelToken.source();
 
@@ -26,22 +28,28 @@ const usePrayersTimes = (city=null) => {
       let res;
       setLoading(true);
       try {
-        if(!city) {
-          let coords = await getCoords();
-          saveUserLocsation(coords, Date.now());
-          res = await Axios.get(`${link}&elevation=8000&longitude=${coords.longitude}&latitude=${coords.latitude}`, {
-            cancelToken: source.token
-          });
-        } else {
-          res = await Axios.get(`${link}&city=${city}`, {
-            cancelToken: source.token
-          });
-        }
-        let { data, status } = res;
-        if(status === 200 && data.status === 'OK') {
-          _isMounted && setPrayersTimes(data.results);
+        if(isOffline) {
+          res = await getPrayersTimes();
+          _isMounted && setPrayersTimes(res);
           _isMounted && setLoading(false);
-          await savePrayersTimes(data.results);
+        } else {
+          if(!city) {
+            let coords = await getCoords();
+            saveUserLocsation(coords, Date.now());
+            res = await Axios.get(`${link}&elevation=8000&longitude=${coords.longitude}&latitude=${coords.latitude}`, {
+              cancelToken: source.token
+            });
+          } else {
+            res = await Axios.get(`${link}&city=${city}`, {
+              cancelToken: source.token
+            });
+          }
+          let { data, status } = res;
+          if(status === 200 && data.status === 'OK') {
+            _isMounted && setPrayersTimes(data.results);
+            _isMounted && setLoading(false);
+            await savePrayersTimes(data.results);
+          }
         }
       } catch (error) {
         let msg = error.response.status === 500 
@@ -61,8 +69,8 @@ const usePrayersTimes = (city=null) => {
       // canceling the reauest
       source.cancel('Operation canceled by the user.');
     };
-  }, [city]);
-  return [ {prayersTimes, loading}, setPrayersTimes];
+  }, [city, isOffline]);
+  return [ {prayersTimes, loading, isOffline}, setPrayersTimes, setIsOffline];
 }
 
 const PrayersTime = ({ navigation }) => {
