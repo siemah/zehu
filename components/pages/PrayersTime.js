@@ -136,7 +136,8 @@ const PrayersTime = ({ navigation }) => {
       <HeaderBar 
         onPress={navigation.toggleDrawer} 
         onSubmit={setCity}
-        title='Change City' />
+        title='Change City'
+        style={{marginBottom: 15}} />
       {
         prayersTimes === null 
         ? <Spinner size='large' color='#50499e' />
