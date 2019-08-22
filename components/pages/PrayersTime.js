@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, Spinner, Separator, ListItem, Left, H3, Right, Icon, Container, } from 'native-base';
+import { Text, View, Spinner, Separator, ListItem, Left, H3, Right, Icon, Container, Fab, Toast, } from 'native-base';
 import Axios from 'axios';
 import { FlatList, Alert, NetInfo } from 'react-native';
 import FadeInView from '../animations/FadeInView';
@@ -78,7 +78,7 @@ const PrayersTime = ({ navigation }) => {
   const [city, setCity] = useState(null);
   
   const [data,, setIsOffline] = usePrayersTimes(city);
-  const {prayersTimes, loading,} = data;
+  const {prayersTimes, loading, isOffline} = data;
   /**
    * render a item
    * @param {Object} param1 contain the item and index of each element passed to data attribute
@@ -165,6 +165,23 @@ const PrayersTime = ({ navigation }) => {
         onSubmit={setCity}
         title='Write City'
         style={{paddingBottom: 15}} />
+      {
+        isOffline && (
+          <Fab
+            active={isOffline}
+            direction="up"
+            containerStyle={{ zIndex: 20 }}
+            style={{ backgroundColor: 'rgba(255, 206, 15, 0.8)' }}
+            position="bottomRight"
+            onPress={() => Alert.alert(
+              'No Internet',
+              'You don\'t have internet connexion, This data is saved earlier'
+            )}
+            >
+            <Icon name="warning" />
+          </Fab>
+        )
+      }
       {
         prayersTimes === null || loading
         ? <Spinner size='large' color='#50499e' />
