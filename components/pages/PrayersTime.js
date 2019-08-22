@@ -6,7 +6,7 @@ import FadeInView from '../animations/FadeInView';
 import { isCurrentDayTimes } from '../../utils/tools';
 import HeaderBar from '../uis/HeaderBar';
 
-const link = `https://api.pray.zone/v2/times/this_week.json?school=8`;
+const link = `https://api.pray.zone/v2/times/this_month.json?school=8`;
 /**
  * 1- if yes, then update the state and save coords on AsyncStorage
  * 2- if not then use a city name rather than location coords
