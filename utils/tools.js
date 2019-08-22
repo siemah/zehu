@@ -112,6 +112,15 @@ export const savePrayersTimes = data => new Promise (async (resolve, reject) => 
   }
 }); 
 
+export const getPrayersTimes = () => new Promise( async (resolve, reject) => {
+  try {
+    let prayers = await getFromDB('prayerstimes');
+    resolve(prayers);
+  } catch (error) {
+    reject(new Error(error));
+  }
+});
+
 /**
  * @name saveArticle
  * save the passed article to read latter
