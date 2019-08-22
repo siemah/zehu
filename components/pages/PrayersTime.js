@@ -3,19 +3,11 @@ import { Text, View, Spinner, Separator, ListItem, Left, H3, Right, Icon, Contai
 import Axios from 'axios';
 import { FlatList, Alert } from 'react-native';
 import FadeInView from '../animations/FadeInView';
-import { isCurrentDayTimes } from '../../utils/tools';
+import { isCurrentDayTimes, getCoords } from '../../utils/tools';
 import HeaderBar from '../uis/HeaderBar';
 
-const link = `https://api.pray.zone/v2/times/this_month.json?school=8`;
-/**
- * 1- if yes, then update the state and save coords on AsyncStorage
- * 2- if not then use a city name rather than location coords
- */
-const getCoords = config => new Promise((resolve, reject) => {
-  navigator.geolocation.getCurrentPosition(({coords}) => {
-    resolve(coords);
-  }, err => reject(err), config);
-})
+const link = `https://api.pray.zone/v2/times/this_week.json?school=8`;
+
 /**
  * 1- verify if the user has enable reaching the location using devices
  * 2- fetch the data for this mounth
