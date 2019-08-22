@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { Text, View, Spinner, Separator, ListItem, Left, H3, Right, Icon, Container, Fab, Toast, } from 'native-base';
 import Axios from 'axios';
-import { FlatList, Alert, NetInfo } from 'react-native';
+import { FlatList, Alert, } from 'react-native';
 import FadeInView from '../animations/FadeInView';
 import { isCurrentDayTimes, getCoords, saveUserLocsation, savePrayersTimes, getPrayersTimes } from '../../utils/tools';
 import HeaderBar from '../uis/HeaderBar';
-//import NetInfo from "@react-native-community/netinfo";
+import NetInfo from "@react-native-community/netinfo";
 
 const link = `https://api.pray.zone/v2/times/this_week.json?school=8`;
 
@@ -84,7 +84,6 @@ const PrayersTime = ({ navigation }) => {
    * @param {Object} param1 contain the item and index of each element passed to data attribute
    */
   const _renderItem = ({item, index}) => {
-    console.warn('render item');
     
     let { times, date } = item;
     let kindOfDay = isCurrentDayTimes(parseInt(date.timestamp, 10));
