@@ -71,6 +71,15 @@ const saveToLocalDB = async (name, data) => {
   }
 }
 
+const getFromDB = name => new Promise( async (resolve, reject) => {
+  try {
+    let res = await AsyncStorage.getItem(`@${name}`);
+    resolve(JSON.parse(res));
+  } catch (error) {
+    reject(new Error(error));
+  }
+}); 
+
 /**
  * save user location cordinates
  * @param {Object} coords coordinate of user 
@@ -86,6 +95,10 @@ export const saveUserLocsation = async (coords, timestamp) => {
   }
 } 
 
+/**
+ * save prayers times
+ * @param {Object} data contain the details to save on AsyncStorage
+ */
 export const savePrayersTimes = data => new Promise (async (resolve, reject) => {
   if(data === null || data === undefined )
     reject('Data must not be empty or undefined');
