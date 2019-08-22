@@ -24,7 +24,7 @@ const getCoords = config => new Promise((resolve, reject) => {
 */
 const usePrayersTimes = (city=null) => {
   let _isMounted = true;
-  const [prayersTime, setPrayersTime] = useState(null);
+  const [prayersTimes, setPrayersTimes] = useState(null);
   const CancelToken = Axios.CancelToken;
   const source = CancelToken.source();
 
@@ -44,7 +44,7 @@ const usePrayersTimes = (city=null) => {
         }
         let { data, status } = res;
         if(status === 200 && data.status === 'OK') {
-          _isMounted && setPrayersTime(data.results);
+          _isMounted && setPrayersTimes(data.results);
         }
       } catch (error) {
         console.warn(error);
@@ -57,14 +57,15 @@ const usePrayersTimes = (city=null) => {
       source.cancel('Operation canceled by the user.');
     };
   }, [city]);
-  return [ prayersTime, setPrayersTime];
+  return [ {prayersTimes}, setPrayersTimes];
 }
 
 const PrayersTime = ({ navigation }) => {
   
   const [city, setCity] = useState(null);
   
-  const [prayersTimes] = usePrayersTimes(city);
+  const [data] = usePrayersTimes(city);
+  const {prayersTimes} = data;
   /**
    * render a item
    * @param {Object} param1 contain the item and index of each element passed to data attribute
