@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, Spinner, Separator, ListItem, Left, H3, Right, Icon, Container, Fab, Toast, } from 'native-base';
+import { Text, View, Spinner, Separator, ListItem, Left, H3, Right, Icon, Container, Fab, Toast, Card, CardItem, Body, } from 'native-base';
 import Axios from 'axios';
 import { FlatList, Alert, } from 'react-native';
 import FadeInView from '../animations/FadeInView';
@@ -184,11 +184,23 @@ const PrayersTime = ({ navigation }) => {
       {
         prayersTimes === null || loading
         ? <Spinner size='large' color='#50499e' />
-        : <FlatList
-            data={prayersTimes.datetime}
-            renderItem={_renderItem}
-            keyExtractor={({date}, index) => `${date.timestamp}-${index}`}
-        />
+        : (
+          <>
+            <Card>
+              <CardItem>
+                <Body>
+                  <H3>Timezone: {prayersTimes.location.timezone}</H3>
+                  <H3>Elevation: {prayersTimes.location.elevation} metres</H3>
+                </Body>
+              </CardItem>
+            </Card>
+            <FlatList
+              data={prayersTimes.datetime}
+              renderItem={_renderItem}
+              keyExtractor={({date}, index) => `${date.timestamp}-${index}`}
+          />
+          </>
+        )
       }
     </Container>
   )
