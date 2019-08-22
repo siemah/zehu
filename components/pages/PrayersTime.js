@@ -25,12 +25,14 @@ const getCoords = config => new Promise((resolve, reject) => {
 const usePrayersTimes = (city=null) => {
   let _isMounted = true;
   const [prayersTimes, setPrayersTimes] = useState(null);
+  const [loading, setLoading] = useState(false);
   const CancelToken = Axios.CancelToken;
   const source = CancelToken.source();
 
   useEffect(() => {
     const fetchPrayers = async () => {
       let res;
+      setLoading(true);
       try {
         if(!city) {
           let coords = await getCoords();
@@ -45,9 +47,11 @@ const usePrayersTimes = (city=null) => {
         let { data, status } = res;
         if(status === 200 && data.status === 'OK') {
           _isMounted && setPrayersTimes(data.results);
+          _isMounted && setLoading(false);
         }
       } catch (error) {
         console.warn(error);
+        _isMounted && setLoading(false);
       }
     }
     fetchPrayers();
@@ -57,7 +61,7 @@ const usePrayersTimes = (city=null) => {
       source.cancel('Operation canceled by the user.');
     };
   }, [city]);
-  return [ {prayersTimes}, setPrayersTimes];
+  return [ {prayersTimes, loading}, setPrayersTimes];
 }
 
 const PrayersTime = ({ navigation }) => {
@@ -65,7 +69,7 @@ const PrayersTime = ({ navigation }) => {
   const [city, setCity] = useState(null);
   
   const [data] = usePrayersTimes(city);
-  const {prayersTimes} = data;
+  const {prayersTimes, loading} = data;
   /**
    * render a item
    * @param {Object} param1 contain the item and index of each element passed to data attribute
@@ -131,16 +135,17 @@ const PrayersTime = ({ navigation }) => {
       </FadeInView>
     );
   }
- 
+  console.warn(loading);
+  
   return (
     <Container>
       <HeaderBar 
         onPress={navigation.toggleDrawer} 
         onSubmit={setCity}
-        title='Change City'
-        style={{marginBottom: 15}} />
+        title='Write City'
+        style={{paddingBottom: 15}} />
       {
-        prayersTimes === null 
+        prayersTimes === null || loading
         ? <Spinner size='large' color='#50499e' />
         : <FlatList
             data={prayersTimes.datetime}
