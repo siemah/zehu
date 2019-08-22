@@ -38,7 +38,6 @@ const usePrayersTimes = (city=null) => {
             cancelToken: source.token
           });
         } else {
-          console.warn('search for city ', city, `${link}&city=${city}`);
           res = await Axios.get(`${link}&city=${city}`, {
             cancelToken: source.token
           });
@@ -63,7 +62,9 @@ const usePrayersTimes = (city=null) => {
 
 const PrayersTime = ({ navigation }) => {
   
-  const [prayersTimes] = usePrayersTimes();
+  const [city, setCity] = useState(null);
+  
+  const [prayersTimes] = usePrayersTimes(city);
   /**
    * render a item
    * @param {Object} param1 contain the item and index of each element passed to data attribute
@@ -132,7 +133,10 @@ const PrayersTime = ({ navigation }) => {
  
   return (
     <Container>
-      <HeaderBar onPress={null} onSubmit={null} />
+      <HeaderBar 
+        onPress={navigation.toggleDrawer} 
+        onSubmit={setCity}
+        title='Change City' />
       {
         prayersTimes === null 
         ? <Spinner size='large' color='#50499e' />
