@@ -81,7 +81,7 @@ const PrayersTime = ({ navigation }) => {
     if(kindOfDay === -1)
       return null;
     return (
-      <FadeInView delay={index * 100}>
+      <FadeInView delay={index * 60}>
         <Separator style={styles.separator} bordered>
           <Text style={styles.separatorText}>{ date.gregorian}</Text>
           {
