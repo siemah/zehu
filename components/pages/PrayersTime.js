@@ -77,14 +77,15 @@ const PrayersTime = ({ navigation }) => {
   
   const [city, setCity] = useState(null);
   
-  const [data] = usePrayersTimes(city);
-  const {prayersTimes, loading} = data;
+  const [data,, setIsOffline] = usePrayersTimes(city);
+  const {prayersTimes, loading,} = data;
   /**
    * render a item
    * @param {Object} param1 contain the item and index of each element passed to data attribute
    */
   const _renderItem = ({item, index}) => {
-  
+    console.warn('render item');
+    
     let { times, date } = item;
     let kindOfDay = isCurrentDayTimes(parseInt(date.timestamp, 10));
 
@@ -145,6 +146,18 @@ const PrayersTime = ({ navigation }) => {
     );
   }
   
+  /**
+   * handle the case of missing network
+   * create a custom hook to fetch data saved locally
+   * render those data if there are any
+   */
+  let _isMounted = true;
+  useEffect(() => {
+    NetInfo.isConnected.fetch().then(isConnected => {
+      _isMounted && setIsOffline(!isConnected);
+    });
+  }, []);
+
   return (
     <Container>
       <HeaderBar 
