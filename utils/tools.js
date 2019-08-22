@@ -86,6 +86,19 @@ export const saveUserLocsation = async (coords, timestamp) => {
   }
 } 
 
+export const savePrayersTimes = data => new Promise (async (resolve, reject) => {
+  if(data === null || data === undefined )
+    reject('Data must not be empty or undefined');
+  try {
+    let isSaved = await saveToLocalDB('prayerstimes', data);
+    if( !isSaved )
+      reject('Something went wrong, try again');
+    resolve(true);
+  } catch (error) {
+    reject(error);
+  }
+}); 
+
 /**
  * @name saveArticle
  * save the passed article to read latter

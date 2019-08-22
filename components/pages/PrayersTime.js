@@ -3,7 +3,7 @@ import { Text, View, Spinner, Separator, ListItem, Left, H3, Right, Icon, Contai
 import Axios from 'axios';
 import { FlatList, Alert } from 'react-native';
 import FadeInView from '../animations/FadeInView';
-import { isCurrentDayTimes, getCoords } from '../../utils/tools';
+import { isCurrentDayTimes, getCoords, saveUserLocsation, savePrayersTimes } from '../../utils/tools';
 import HeaderBar from '../uis/HeaderBar';
 
 const link = `https://api.pray.zone/v2/times/this_week.json?school=8`;
@@ -28,6 +28,7 @@ const usePrayersTimes = (city=null) => {
       try {
         if(!city) {
           let coords = await getCoords();
+          saveUserLocsation(coords, Date.now());
           res = await Axios.get(`${link}&elevation=8000&longitude=${coords.longitude}&latitude=${coords.latitude}`, {
             cancelToken: source.token
           });
@@ -40,6 +41,7 @@ const usePrayersTimes = (city=null) => {
         if(status === 200 && data.status === 'OK') {
           _isMounted && setPrayersTimes(data.results);
           _isMounted && setLoading(false);
+          await savePrayersTimes(data.results);
         }
       } catch (error) {
         let msg = error.response.status === 500 
