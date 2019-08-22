@@ -30,7 +30,7 @@ const HeaderBar = ({ onPress=null, onSubmit=null, title='Search for ..', iconSty
         </TouchableOpacity>
         <Content>
           <Item rounded style={[style.inputItem]} >
-            <Input placeholder={title} onChangeText={_onChange} onSubmitEditing={_onSubmit} style={style.input} />
+            <Input placeholder={title} autoCompleteType={false} onChangeText={_onChange} onSubmitEditing={_onSubmit} style={style.input} />
             <Icon active name='search' onPress={_onSubmit} />
           </Item>
         </Content>
