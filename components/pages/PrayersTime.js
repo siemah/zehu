@@ -6,7 +6,7 @@ import FadeInView from '../animations/FadeInView';
 import { isCurrentDayTimes, getCoords, saveUserLocsation, savePrayersTimes, getPrayersTimes } from '../../utils/tools';
 import HeaderBar from '../uis/HeaderBar';
 import NetInfo from "@react-native-community/netinfo";
-import MapView from 'react-native-maps';
+import MapView, { Marker } from 'react-native-maps';
 
 const link = `https://api.pray.zone/v2/times/this_week.json?school=8`;
 
@@ -158,8 +158,8 @@ const PrayersTime = ({ navigation }) => {
     NetInfo.isConnected.fetch().then(isConnected => {
       _isMounted && setIsOffline(!isConnected);
     });
+    return () => _isMounted = false;
   }, []);
-  console.warn(data.coords);
   
   return (
     <Container>
@@ -207,7 +207,17 @@ const PrayersTime = ({ navigation }) => {
                   latitudeDelta: 0.015,
                   longitudeDelta: 0.0121,
                 }}
+                maxZoomLevel={7}
+                loadingEnabled
               >
+                <Marker
+                  coordinate={{
+                    latitude: data.coords.latitude,
+                    longitude: data.coords.longitude
+                  ,}}
+                  title={`Location of your's`}
+                  description={`You're here`}
+                />
               </MapView>
             </View>
             <FlatList
