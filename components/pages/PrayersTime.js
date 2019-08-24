@@ -6,6 +6,7 @@ import FadeInView from '../animations/FadeInView';
 import { isCurrentDayTimes, getCoords, saveUserLocsation, savePrayersTimes, getPrayersTimes } from '../../utils/tools';
 import HeaderBar from '../uis/HeaderBar';
 import NetInfo from "@react-native-community/netinfo";
+import MapView from 'react-native-maps';
 
 const link = `https://api.pray.zone/v2/times/this_week.json?school=8`;
 
@@ -158,7 +159,8 @@ const PrayersTime = ({ navigation }) => {
       _isMounted && setIsOffline(!isConnected);
     });
   }, []);
-
+  console.warn(data.coords);
+  
   return (
     <Container>
       <HeaderBar 
@@ -196,6 +198,18 @@ const PrayersTime = ({ navigation }) => {
                 </Body>
               </CardItem>
             </Card>
+            <View style={styles.mapContainer}>
+              <MapView
+                style={styles.map}
+                region={{
+                  latitude: data.coords.latitude,
+                  longitude: data.coords.longitude,
+                  latitudeDelta: 0.015,
+                  longitudeDelta: 0.0121,
+                }}
+              >
+              </MapView>
+            </View>
             <FlatList
               data={prayersTimes.datetime}
               renderItem={_renderItem}
@@ -212,6 +226,13 @@ const styles = {
   dosis: {
     fontFamily: 'Dosis',
     fontWeight: '500'
+  },
+  mapContainer: {
+    height: 150,
+    width: '100%',
+  },
+  map: {
+    ...StyleSheet.absoluteFillObject,
   },
   separator: {
     height: 'auto',
