@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
-import { Text, View, Spinner, Separator, ListItem, Left, H3, Right, Icon, Container, Fab, Toast, Card, CardItem, Body, } from 'native-base';
+import { Text, View, Spinner, Separator, ListItem, Left, H3, Right, Icon, Container, Fab, Card, CardItem, Body, } from 'native-base';
 import Axios from 'axios';
-import { FlatList, Alert, } from 'react-native';
+import { FlatList, Alert, StyleSheet, } from 'react-native';
 import FadeInView from '../animations/FadeInView';
 import { isCurrentDayTimes, getCoords, saveUserLocsation, savePrayersTimes, getPrayersTimes } from '../../utils/tools';
 import HeaderBar from '../uis/HeaderBar';
@@ -20,6 +20,7 @@ const usePrayersTimes = (city=null) => {
   const [prayersTimes, setPrayersTimes] = useState(null);
   const [loading, setLoading] = useState(false);
   const [isOffline, setIsOffline] = useState(false);
+  const [coords, setCoords] = useState(null);
   const CancelToken = Axios.CancelToken;
   const source = CancelToken.source();
 
@@ -35,6 +36,7 @@ const usePrayersTimes = (city=null) => {
         } else {
           if(!city) {
             let coords = await getCoords();
+            setCoords(coords);
             saveUserLocsation(coords, Date.now());
             res = await Axios.get(`${link}&elevation=8000&longitude=${coords.longitude}&latitude=${coords.latitude}`, {
               cancelToken: source.token
@@ -70,7 +72,7 @@ const usePrayersTimes = (city=null) => {
       source.cancel('Operation canceled by the user.');
     };
   }, [city, isOffline]);
-  return [ {prayersTimes, loading, isOffline}, setPrayersTimes, setIsOffline];
+  return [ {prayersTimes, loading, isOffline, coords}, setPrayersTimes, setIsOffline];
 }
 
 const PrayersTime = ({ navigation }) => {
@@ -87,7 +89,7 @@ const PrayersTime = ({ navigation }) => {
     
     let { times, date } = item;
     let kindOfDay = isCurrentDayTimes(parseInt(date.timestamp, 10));
-
+    
     if(kindOfDay === -1)
       return null;
     return (
