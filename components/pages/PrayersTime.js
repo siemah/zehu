@@ -6,7 +6,7 @@ import FadeInView from '../animations/FadeInView';
 import { isCurrentDayTimes, getCoords, saveUserLocsation, savePrayersTimes, getPrayersTimes } from '../../utils/tools';
 import HeaderBar from '../uis/HeaderBar';
 import NetInfo from "@react-native-community/netinfo";
-import MapView, { Marker } from 'react-native-maps';
+import Map from '../uis/Map';
 
 const link = `https://api.pray.zone/v2/times/this_week.json?school=8`;
 
@@ -198,33 +198,12 @@ const PrayersTime = ({ navigation }) => {
                 </Body>
               </CardItem>
             </Card>
-            <View style={styles.mapContainer}>
-              <MapView
-                style={styles.map}
-                region={{
-                  latitude: data.coords.latitude,
-                  longitude: data.coords.longitude,
-                  latitudeDelta: 0.015,
-                  longitudeDelta: 0.0121,
-                }}
-                maxZoomLevel={7}
-                loadingEnabled
-              >
-                <Marker
-                  coordinate={{
-                    latitude: data.coords.latitude,
-                    longitude: data.coords.longitude
-                  ,}}
-                  title={`Location of your's`}
-                  description={`You're here`}
-                />
-              </MapView>
-            </View>
             <FlatList
               data={prayersTimes.datetime}
               renderItem={_renderItem}
               keyExtractor={({date}, index) => `${date.timestamp}-${index}`}
-          />
+              ListHeaderComponent={<Map style={styles.map} coords={data.coords} />}
+            />
           </>
         )
       }
@@ -237,12 +216,8 @@ const styles = {
     fontFamily: 'Dosis',
     fontWeight: '500'
   },
-  mapContainer: {
+  map:{
     height: 150,
-    width: '100%',
-  },
-  map: {
-    ...StyleSheet.absoluteFillObject,
   },
   separator: {
     height: 'auto',
